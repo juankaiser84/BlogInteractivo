@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Blog Interactivo</title>
+  <meta name="description" content="Página de contacto del Blog Interactivo. Envía un mensaje.">
+</head>
+<body>
+  <!-- ================= HEADER ================= -->
+  <header>
+    <h1>Blog Interactivo</h1>
+    <nav aria-label="Menú principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="about.html">Sobre mí</a></li>
+        <li><a href="contact.html" aria-current="page">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ================= CONTENIDO PRINCIPAL ================= -->
+  <main>
+    <section aria-labelledby="titulo-contacto">
+      <h2 id="titulo-contacto">Contáctame</h2>
+      <p>Si quieres enviarme un mensaje, rellena este formulario:</p>
+
+      <form action="#" method="post">
+        <!-- Nombre -->
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <!-- Email -->
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required>
+
+        <!-- Mensaje -->
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+
+        <!-- Botón -->
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <p>&copy; 2025 Blog Interactivo</p>
+  </footer>
+</body>
+</html>
