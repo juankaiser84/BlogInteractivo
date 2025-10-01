@@ -5,11 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre mí - Blog Interactivo</title>
   <meta name="description" content="Página sobre mí del Blog Interactivo. Conoce quién está detrás de este proyecto.">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <!-- ================= HEADER ================= -->
   <header>
+    <div class="logo">
     <h1>Blog Interactivo</h1>
+    </div>
+
+    <!-- Botón hamburguesa (solo visible en móviles) -->
+    <button class="nav-toggle" aria-label="Abrir menú">
+        ☰
+    </button>
     <nav aria-label="Menú principal">
       <ul>
         <li><a href="index.html">Inicio</a></li>
@@ -17,6 +25,12 @@
         <li><a href="contact.html">Contacto</a></li>
       </ul>
     </nav>
+    
+    <!-- Botón toggle de tema -->
+    <button class="theme-toggle" aria-label="Cambiar tema">
+    <span class="icon"></span>
+    </button>
+
   </header>
 
   <!-- ================= CONTENIDO PRINCIPAL ================= -->
@@ -38,5 +52,7 @@
   <footer>
     <p>&copy; 2025 Blog Interactivo</p>
   </footer>
+  <script src="assets/js/main.js"></script>
+
 </body>
 </html>

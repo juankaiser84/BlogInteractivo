@@ -5,11 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contacto - Blog Interactivo</title>
   <meta name="description" content="Página de contacto del Blog Interactivo. Envía un mensaje.">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <!-- ================= HEADER ================= -->
   <header>
+    <div class="logo">
     <h1>Blog Interactivo</h1>
+    </div>
+
+    <!-- Botón hamburguesa (solo visible en móviles) -->
+    <button class="nav-toggle" aria-label="Abrir menú">
+        ☰
+    </button>
+    
     <nav aria-label="Menú principal">
       <ul>
         <li><a href="index.html">Inicio</a></li>
@@ -17,6 +26,11 @@
         <li><a href="contact.html" aria-current="page">Contacto</a></li>
       </ul>
     </nav>
+    <!-- Botón toggle de tema -->
+    <button class="theme-toggle" aria-label="Cambiar tema">
+    <span class="icon"></span>
+    </button>
+
   </header>
 
   <!-- ================= CONTENIDO PRINCIPAL ================= -->
@@ -48,5 +62,7 @@
   <footer>
     <p>&copy; 2025 Blog Interactivo</p>
   </footer>
+  <script src="assets/js/main.js"></script>
+
 </body>
 </html>

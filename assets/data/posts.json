@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "Primer post de ejemplo",
+    "date": "2025-09-30",
+    "author": "Juan Kaiser",
+    "summary": "Este es un post de prueba para el Blog Interactivo.",
+    "link": "#"
+  },
+  {
+    "id": 2,
+    "title": "Aprendiendo HTML semántico",
+    "date": "2025-10-01",
+    "author": "Juan Kaiser",
+    "summary": "Cómo usar etiquetas semánticas para mejorar accesibilidad y SEO.",
+    "link": "#"
+  },
+  {
+    "id": 3,
+    "title": "CSS Variables y temas",
+    "date": "2025-10-02",
+    "author": "Juan Kaiser",
+    "summary": "Usando variables de CSS para crear temas dinámicos y consistentes.",
+    "link": "#"
+  },
+  {
+    "id": 4,
+    "title": "Menú hamburguesa responsive",
+    "date": "2025-10-03",
+    "author": "Juan Kaiser",
+    "summary": "Cómo implementar un menú adaptable en móviles y escritorio con JavaScript.",
+    "link": "#"
+  },
+  {
+    "id": 5,
+    "title": "Tema claro y oscuro con toggle",
+    "date": "2025-10-04",
+    "author": "Juan Kaiser",
+    "summary": "Activando un modo oscuro y claro con CSS Variables y localStorage.",
+    "link": "#"
+  },
+  {
+    "id": 6,
+    "title": "Carga dinámica desde JSON",
+    "date": "2025-10-05",
+    "author": "Juan Kaiser",
+    "summary": "Cómo mostrar posts dinámicamente en HTML leyendo un archivo JSON.",
+    "link": "#"
+  }
+]

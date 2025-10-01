@@ -1,0 +1,384 @@
+/* =========================================
+   RESET BÁSICO
+   ========================================= */
+/* Elimina márgenes/paddings por defecto y asegura box-sizing consistente */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Quita estilos predeterminados de listas y enlaces */
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit; /* El color se manejará con variables */
+}
+
+/* Imágenes responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* =========================================
+   VARIABLES DE DISEÑO
+   ========================================= */
+:root {
+  /* Colores base */
+  --color-bg-light: #ffffff;
+  --color-bg-dark: #121418;
+  --color-text-light: #f5f5f5;
+  --color-text-dark: #0b0b0b;
+
+  /* Paleta de acento (inspirada en Synthwave 🎨) */
+  --color-primary: #00d1ff;
+  --color-secondary: #7a2cff;
+  --color-accent: #ff2e7a;
+
+  /* Tipografía */
+  --font-main: "Inter", Arial, sans-serif;
+  --font-title: "Exo 2", "Segoe UI", sans-serif;
+
+  /* Tamaños */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --border-radius: 0.5rem;
+}
+
+/* =========================================
+   ESTILOS GENERALES
+   ========================================= */
+body {
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  padding: var(--spacing-md);
+}
+
+/* =========================================
+   HEADER Y NAVEGACIÓN (Versión Desktop)
+   ========================================= */
+header {
+  display: flex;
+  justify-content: space-between; /* Logo a la izq, menú a la der */
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  position: sticky; /* Se queda fijo arriba */
+  top: 0;
+  z-index: 1000; /* Encima de otros elementos */
+}
+
+/* Logo o título del blog */
+header .logo h1 {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+}
+
+/* Navegación */
+nav ul {
+  display: flex;
+  gap: var(--spacing-md); /* Espacio entre enlaces */
+}
+
+nav a {
+  color: var(--color-text-light);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover,
+nav a[aria-current="page"] {
+  color: var(--color-accent);
+}
+
+/* =========================================
+   ESTILOS PARA POSTS
+   ========================================= */
+main {
+  max-width: 900px; /* Ancho legible en pantallas grandes */
+  margin: var(--spacing-lg) auto; /* Centrado horizontal */
+  padding: 0 var(--spacing-md);
+}
+
+section h2 {
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-title);
+  color: var(--color-secondary);
+}
+
+article {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Animación sutil al pasar el mouse */
+article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+/* Título de cada post */
+article h3 {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Fecha y autor */
+article header p {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  opacity: 0.7;
+  text-align: right;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Resumen */
+article p {
+  margin-bottom: var(--spacing-md);
+}
+
+/* Enlace Leer más */
+article footer a {
+  color: var(--color-accent);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+article footer a:hover {
+  color: var(--color-primary);
+}
+
+/* =========================================
+   MENÚ HAMBURGUESA (Responsive)
+   ========================================= */
+
+/* Botón hamburguesa */
+.nav-toggle {
+  display: none; /* Oculto en desktop */
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  cursor: pointer;
+}
+
+/* Móviles: mostrar botón y ocultar menú */
+@media (max-width: 768px) {
+  nav ul {
+    display: none; /* Oculto por defecto */
+    flex-direction: column;
+    background-color: var(--color-bg-dark);
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+
+  nav ul.active {
+    display: flex; /* Mostrar cuando esté activo */
+  }
+
+  .nav-toggle {
+    display: block; /* Mostrar el botón en móviles */
+  }
+}
+/* =========================================
+   TOGGLE TEMA CLARO/OSCURO
+   ========================================= */
+.theme-toggle {
+  margin-left: var(--spacing-md);
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Ícono dentro del botón */
+.theme-toggle .icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+/* Rayos de sol */
+.theme-toggle .icon::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  opacity: 0.6;
+  transition: all 0.4s ease;
+}
+
+/* Estado en modo oscuro (luna) */
+body.dark-theme .theme-toggle .icon {
+  background-color: var(--color-accent);
+  box-shadow: -6px -6px 0 0 var(--color-bg-dark);
+}
+
+body.dark-theme .theme-toggle .icon::after {
+  opacity: 0; /* Quita rayos en modo oscuro */
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+footer {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  text-align: center;
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  font-size: 0.9rem;
+}
+
+footer p {
+  margin-bottom: var(--spacing-sm);
+}
+
+footer a {
+  color: var(--color-accent);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--color-primary);
+}
+
+/* =========================================
+   MODO OSCURO
+   ========================================= */
+body.dark-theme {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+/* Header en modo oscuro */
+body.dark-theme header {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+}
+
+body.dark-theme header .logo h1 {
+  color: var(--color-accent);
+}
+
+body.dark-theme nav a {
+  color: var(--color-text-dark);
+}
+
+body.dark-theme nav a:hover,
+body.dark-theme nav a[aria-current="page"] {
+  color: var(--color-primary);
+}
+
+/* Posts en modo oscuro */
+body.dark-theme article {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+}
+
+/* Footer en modo oscuro */
+body.dark-theme footer {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+}
+
+/* Transición global para cambios de tema */
+body,
+header,
+footer,
+article,
+nav,
+.theme-toggle .icon {
+  transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+/* =========================================
+   BARRA DE BÚSQUEDA
+   ========================================= */
+.search-bar {
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.search-bar input {
+  width: 80%;
+  max-width: 400px;
+  padding: var(--spacing-sm);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+/* =========================================
+   BOTÓN CARGAR MÁS
+   ========================================= */
+#load-more {
+  display: block;
+  margin: var(--spacing-lg) auto;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-primary);
+  color: var(--color-bg-dark);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#load-more:hover {
+  background-color: var(--color-accent);
+  color: var(--color-text-light);
+}
+#load-less {
+  display: block;
+  margin: var(--spacing-md) auto;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-secondary);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#load-less:hover {
+  background-color: var(--color-accent);
+}
