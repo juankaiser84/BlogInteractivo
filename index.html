@@ -1,84 +1,100 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <!-- Metadatos básicos -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog Interactivo</title>
+  <head>
+    <!-- Metadatos básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Interactivo</title>
 
-  <!-- SEO básico -->
-  <meta name="description" content="Blog personal de desarrollo web, productividad y vida digital.">
-  <meta name="author" content="Tu Nombre">
+    <!-- SEO básico -->
+    <meta name="description" content="Blog personal de desarrollo web, productividad y vida digital.">
+    <meta name="author" content="Tu Nombre">
 
-  <!-- Aquí enlazaremos el CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
+    <!-- Aquí enlazaremos el CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- === SEO extra (añadir antes de </head>) === -->
+    <link rel="canonical" href="https://kaiser84.github.io/BlogInteractivo/">
+    <meta property="og:title" content="Blog Interactivo — Inicio">
+    <meta property="og:description" content="Posts sobre desarrollo, productividad y aprendizaje.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://kaiser84.github.io/BlogInteractivo/assets/img/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./assets/img/favicon.ico">
+    <meta name="theme-color" content="#0ea5e9">
+
+  </head>
+  <body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
   <!-- ================= HEADER ================= -->
+
   <header>
-  <div class="logo">
-    <h1>Blog Interactivo</h1>
-  </div>
+    <div class="logo">
+      <h1>Blog Interactivo</h1>
+    </div>
 
-  <!-- Botón hamburguesa (solo visible en móviles) -->
-  <button class="nav-toggle" aria-label="Abrir menú">
-    ☰
-  </button>
+    <!-- Botón hamburguesa (solo visible en móviles) -->
+    <button class="nav-toggle" aria-label="Abrir menú">
+      ☰
+    </button>
 
-  <nav aria-label="Menú principal">
-    <ul>
+    <nav aria-label="Menú principal">
+      <ul>
       <li><a href="index.html">Inicio</a></li>
       <li><a href="about.html">Sobre mí</a></li>
       <li><a href="contact.html">Contacto</a></li>
-    </ul>
-  </nav>
-  <!-- Botón toggle de tema -->
-<button class="theme-toggle" aria-label="Cambiar tema">
-  <span class="icon"></span>
-</button>
+      </ul>
+    </nav>
 
-</header>
+    <!-- Botón toggle de tema -->
+    <button class="theme-toggle" aria-label="Cambiar tema">
+      <span class="icon"></span>
+    </button>
+
+  </header>
     
 
   <!-- ================= CONTENIDO PRINCIPAL ================= -->
-  <main>
-    <!-- Barra de búsqueda -->
+  <main id="main">
+
+  <!-- Barra de búsqueda -->
     <div class="search-bar">
       <label for="search">Buscar posts:</label>
       <input type="text" id="search" placeholder="Escribe para filtrar...">
+      <p id="results-counter" aria-live="polite" class="visualmente-oculto"></p>
     </div>
 
-    <!-- Sección de posts -->
-    <section aria-labelledby="titulo-posts">
+  <!-- Sección de posts -->
+    <section aria-labelledby="titulo-posts" data-js="posts">
       <h2 id="titulo-posts">Últimos Posts</h2>
-      
-      <!-- Ejemplo de artículo -->
-      <article>
-        <header>
-          <h3>Título de un post de ejemplo</h3>
-          <p><time datetime="2025-10-01">1 Octubre 2025</time> · Autor</p>
-        </header>
-        <p>
-          Aquí irá un resumen del post. El contenido real vendrá dinámicamente desde un JSON más adelante.
-        </p>
-        <footer>
-          <a href="#">Leer más →</a>
-        </footer>
-      </article>
+    
+    <!-- Ejemplo de artículo -->
+    <article>
+    <header>
+      <h3>Título de un post de ejemplo</h3>
+      <p><time datetime="2025-10-01">1 Octubre 2025</time> · Autor</p>
+    </header>
+      <p>
+      Aquí irá un resumen del post. El contenido real vendrá dinámicamente desde un JSON más adelante.
+      </p>
+    <footer>
+      <a href="#">Leer más →</a>
+    </footer>
+    </article>
 
-      <!-- Más artículos se cargarán dinámicamente -->
-    </section>
-    <button id="load-more">Cargar más</button>
-    <button id="load-less" style="display: none;">Cargar menos</button>
+        <!-- Más artículos se cargarán dinámicamente -->
+      </section>
+      <button id="load-more">Cargar más</button>
+      <button id="load-less" style="display: none;">Cargar menos</button>
 
-  </main>
+    </main>
 
-  <!-- ================= FOOTER ================= -->
-  <footer>
-    <p>&copy; 2025 Blog Interactivo. Todos los derechos reservados.</p>
-    <p><a href="contact.html">Contáctame</a></p>
-  </footer>
-  <script src="assets/js/main.js"></script>
+    <!-- ================= FOOTER ================= -->
+    <footer>
+      <p>&copy; 2025 Blog Interactivo. Todos los derechos reservados.</p>
+      <p><a href="contact.html">Contáctame</a></p>
+    </footer>
+    <script src="assets/js/main.js" defer></script>
 
-</body>
+  </body>
 </html>
