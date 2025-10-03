@@ -382,3 +382,18 @@ nav,
 #load-less:hover {
   background-color: var(--color-accent);
 }
+
+/* === Accesibilidad: helpers === */
+.skip-link{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus{
+  left:1rem; top:1rem; width:auto; height:auto; overflow:visible;
+  background:#fff; padding:.5rem 1rem; border-radius:.5rem; z-index:1000;
+}
+
+/* Oculto visualmente pero accesible para lectores de pantalla */
+.visualmente-oculto{
+  position:absolute !important; width:1px; height:1px; margin:-1px; padding:0; border:0;
+  clip:rect(0 0 0 0); clip-path:inset(50%); overflow:hidden; white-space:nowrap;
+}

@@ -91,10 +91,13 @@ function markActiveLink() {
  */
 function initPosts() {
   const postsRoot      = document.querySelector('[data-js="posts"]');
-  if (!postsRoot) return; // <-- Clave: NO estamos en index.html
+  if (!postsRoot) return; // <-- Clave: si no hay contenedor, no corre
 
   const searchInput    = document.querySelector('#search');
   const resultsCounter = document.querySelector('#results-counter'); // aria-live="polite"
+  // ⬇️ NUEVO: oculto al iniciar
+  if (resultsCounter) resultsCounter.classList.add('visualmente-oculto');
+
   const btnMore        = document.querySelector('#load-more');
   const btnLess        = document.querySelector('#load-less');
 
@@ -128,7 +131,7 @@ function initPosts() {
       `;
       postsRoot.appendChild(article);
     });
-    // Actualiza contador accesible
+    // Actualiza contador accesible (queda oculto si no se está buscando)
     if (resultsCounter) resultsCounter.textContent = `${list.length} resultados`;
     updateButtons();
   }
@@ -147,6 +150,9 @@ function initPosts() {
       : [];
     page = 1;
     render(sliceByPage(currentList()));
+
+    // ⬇️ NUEVO: mostrar el contador solo cuando hay texto en la búsqueda
+    if (resultsCounter) resultsCounter.classList.toggle('visualmente-oculto', term.length === 0);
   });
 
   btnMore?.addEventListener('click', () => {
