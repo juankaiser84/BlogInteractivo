@@ -397,3 +397,27 @@ nav,
   position:absolute !important; width:1px; height:1px; margin:-1px; padding:0; border:0;
   clip:rect(0 0 0 0); clip-path:inset(50%); overflow:hidden; white-space:nowrap;
 }
+
+/* ===== Estabilidad de layout (reduce CLS) ===== */
+.posts-skeleton{display:grid;gap:1rem;margin-top:1rem}
+.posts-skeleton .sk-card,
+[data-js="posts"] article{ /* misma altura en skeleton y tarjetas reales */
+  min-height: 180px;        /* ajusta si tus cards reales son más altas */
+  border-radius: 12px;
+  background: #121317;
+  box-shadow: 0 6px 20px rgba(0,0,0,.15);
+}
+
+/* Skeleton shimmer simple */
+.sk-card{position:relative;overflow:hidden}
+.sk-line{height:14px;border-radius:6px;background:#1f222a;margin:10px 0}
+.sk-line.w50{width:50%}
+.sk-line.w70{width:70%}
+.sk-line.w30{width:30%}
+.sk-line.h24{height:24px;border-radius:8px}
+.sk-anim::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+  transform:translateX(-100%);animation:sk 1.2s infinite;
+}
+@keyframes sk{to{transform:translateX(100%)}}

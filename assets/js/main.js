@@ -142,18 +142,20 @@ function initPosts() {
     if (btnLess) btnLess.hidden = page <= 1;
   }
 
-  /** Eventos */
-  searchInput?.addEventListener('input', (e) => {
-    const term = e.target.value.trim().toLowerCase();
-    filtered = term
-      ? all.filter(p => p.title.toLowerCase().includes(term) || p.summary.toLowerCase().includes(term))
-      : [];
-    page = 1;
-    render(sliceByPage(currentList()));
+  const debounce = (fn, wait=150) => {
+  let t; return (...args) => { clearTimeout(t); t = setTimeout(()=>fn(...args), wait); };
+    };
 
-    // ⬇️ NUEVO: mostrar el contador solo cuando hay texto en la búsqueda
-    if (resultsCounter) resultsCounter.classList.toggle('visualmente-oculto', term.length === 0);
-  });
+  /** Eventos */
+  searchInput?.addEventListener('input', debounce((e) => {
+  const term = e.target.value.trim().toLowerCase();
+  filtered = term
+    ? all.filter(p => p.title.toLowerCase().includes(term) || p.summary.toLowerCase().includes(term))
+    : [];
+  page = 1;
+  render(sliceByPage(currentList()));
+  if (resultsCounter) resultsCounter.classList.toggle('visualmente-oculto', term.length === 0);
+    }, 150));
 
   btnMore?.addEventListener('click', () => {
     page++;
@@ -167,16 +169,39 @@ function initPosts() {
     btnLess.focus();
   });
 
-  /** Carga inicial */
-  fetch('assets/data/posts.json')
-    .then(r => r.json())
-    .then(data => {
-      all = Array.isArray(data) ? data : [];
-      page = 1;
-      render(sliceByPage(all));
-    })
-    .catch(err => {
-      console.error('Error cargando posts:', err);
-      postsRoot.insertAdjacentHTML('beforeend', `<p>No se pudieron cargar los posts.</p>`);
-    });
+  /* Skeleton: reserva espacio para evitar saltos */
+function renderSkeleton(count = 3){
+  postsRoot.innerHTML = `<h2 id="titulo-posts">Últimos Posts</h2>`;
+  const wrap = document.createElement('div');
+  wrap.className = 'posts-skeleton';
+  for (let i=0;i<count;i++){
+    const card = document.createElement('div');
+    card.className = 'sk-card sk-anim';
+    card.innerHTML = `
+      <div style="padding:16px 18px">
+        <div class="sk-line h24 w70"></div>
+        <div class="sk-line w30"></div>
+        <div class="sk-line"></div>
+        <div class="sk-line w50"></div>
+      </div>`;
+    wrap.appendChild(card);
+  }
+  postsRoot.appendChild(wrap);
+}
+
+/** Carga inicial */
+renderSkeleton(3); // ⬅️ NUEVO: reserva espacio (3 cards)
+
+fetch('assets/data/posts.json')
+  .then(r => r.json())
+  .then(data => {
+    all = Array.isArray(data) ? data : [];
+    page = 1;
+    render(sliceByPage(all)); // reemplaza skeleton por contenido real
+  })
+  .catch(err => {
+    console.error('Error cargando posts:', err);
+    postsRoot.insertAdjacentHTML('beforeend', `<p>No se pudieron cargar los posts.</p>`);
+  });
+
 }
