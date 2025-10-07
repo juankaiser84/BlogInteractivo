@@ -112,29 +112,31 @@ function initPosts() {
   const sliceByPage = (list) => list.slice(0, page * pageSize);
 
   /** Render */
-  function render(list) {
-    // Reinicia contenido manteniendo el título
-    postsRoot.innerHTML = `<h2 id="titulo-posts">Últimos Posts</h2>`;
-    list.forEach(post => {
-      const article = document.createElement('article');
-      article.innerHTML = `
+function render(list) {
+  // Construimos TODO el HTML en memoria y lo insertamos una sola vez
+  let html = `<h2 id="titulo-posts">Últimos Posts</h2>`;
+  for (const post of list) {
+    html += `
+      <article>
         <header>
           <h3>${post.title}</h3>
           <p>
-            <time datetime="${post.date}">
-              ${new Date(post.date).toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric' })}
-            </time> · ${post.author}
+            <time datetime="${post.date}">${post.dateLabel}</time> · ${post.author}
           </p>
         </header>
         <p>${post.summary}</p>
         <footer><a href="${post.link}">Leer más →</a></footer>
-      `;
-      postsRoot.appendChild(article);
-    });
-    // Actualiza contador accesible (queda oculto si no se está buscando)
-    if (resultsCounter) resultsCounter.textContent = `${list.length} resultados`;
-    updateButtons();
+      </article>
+    `;
   }
+  postsRoot.innerHTML = html;
+
+  // Accesibilidad: contador
+  if (resultsCounter) resultsCounter.textContent = `${list.length} resultados`;
+
+  updateButtons();
+}
+
 
   function updateButtons() {
     const total = currentList().length;
@@ -175,11 +177,18 @@ function initPosts() {
 fetch('assets/data/posts.json')
   .then(r => r.json())
   .then(data => {
-    all = Array.isArray(data) ? data : [];
+  // Precalcula la etiqueta de fecha UNA SOLA VEZ
+  all = (Array.isArray(data) ? data : []).map(p => ({
+    ...p,
+    dateLabel: new Date(p.date).toLocaleDateString('es-ES', {
+    day: 'numeric', month: 'long', year: 'numeric'})
+    }));
     page = 1;
+
+  // Si tienes el skeleton HTML, quítalo antes de renderizar contenido real
     document.querySelector('.posts-skeleton')?.remove();
-    render(sliceByPage(all)); // reemplaza skeleton por contenido real
-  })
+    render(sliceByPage(all));
+    })
   .catch(err => {
     console.error('Error cargando posts:', err);
     postsRoot.insertAdjacentHTML('beforeend', `<p>No se pudieron cargar los posts.</p>`);

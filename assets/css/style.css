@@ -423,3 +423,8 @@ nav,
 @keyframes sk{to{transform:translateX(100%)}}
 
 header{min-height:60px;display:flex;align-items:center}
+
+/* Desactiva el brillo del skeleton en pantallas muy pequeñas */
+@media (max-width: 480px){
+  .sk-anim::after { content: none; }
+}
