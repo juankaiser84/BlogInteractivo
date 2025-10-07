@@ -1,49 +1,100 @@
 # 📖 Blog Interactivo
 
-Este es mi primer proyecto personal: un **blog estático** hecho con **HTML5, CSS3 y JavaScript**.  
-El objetivo es documentar mi aprendizaje en desarrollo web y aplicar **buenas prácticas desde el inicio**.
+Blog estático hecho con **HTML5, CSS3 y JavaScript ES6+** para documentar mi aprendizaje como desarrollador.  
+Enfoque: **Learning in Public** y buenas prácticas desde el inicio (accesibilidad, rendimiento y SEO).
 
-## 🚀 Objetivos del proyecto
-- Crear un blog funcional y responsive desde cero.
-- Aprender y practicar **HTML semántico**, **CSS moderno** y **JavaScript ES6+**.
-- Documentar mi proceso de aprendizaje (**Learning in Public**).
-- Desplegar el proyecto con **GitHub Pages**.
+> Hosting: **GitHub Pages** · Enfoque **mobile-first** · Modo **claro/oscuro**
 
-## 📂 Estructura del proyecto
+---
+
+## ✨ Funcionalidades actuales
+
+- **Diseño responsive (mobile-first)**
+- **Tema claro/oscuro** con toggle y preferencia guardada en `localStorage`
+- **Menú móvil accesible** (teclado, `aria-expanded`, cierre al navegar)
+- **Posts dinámicos** desde `assets/data/posts.json`
+- **Búsqueda en tiempo real** (con `aria-live` para resultados)
+- **Paginación**: *Cargar más* / *Cargar menos*
+- **Accesibilidad base**: HTML semántico, skip-link, foco visible, contrastes
+- **SEO on-page**: títulos/metas únicos, OpenGraph/Twitter, `robots.txt`, `sitemap.xml`
+- **Optimización**: render de una pasada, skeleton para estabilidad de layout, `defer`, `content-visibility`
+
+> Nota: existen páginas `index.html`, `about.html` y `contact.html` (formulario básico, sin backend todavía).
+
+---
+
+## 📂 Estructura
 
 BlogInteractivo/
-│
-├── index.html # Página principal (últimos posts)
-├── about.html # Página "Sobre mí"
-├── contact.html # Página de contacto
-│
-├── assets/ # Recursos estáticos
-│ ├── css/ # Estilos CSS
-│ ├── js/ # Scripts JS
-│ ├── img/ # Imágenes
-│ └── data/ # Archivos JSON con posts
-│
-└── README.md # Documentación del proyecto
+├── index.html
+├── about.html
+├── contact.html
+├── assets/
+│ ├── css/
+│ │ └── style.css
+│ ├── js/
+│ │ └── main.js
+│ ├── data/
+│ │ └── posts.json
+│ └── img/
+└── README.md
 
-
-## 🛠️ Tecnologías usadas
-- **HTML5** → estructura semántica accesible.
-- **CSS3** → diseño responsive (mobile-first).
-- **JavaScript ES6+** → interactividad (toggle oscuro/claro, menú móvil, búsqueda, paginación).
-- **Git + GitHub** → control de versiones y despliegue.
-- **Live Server** → desarrollo local rápido.
 
 ---
 
-## 📌 Próximas fases
-1. **FASE 1 (actual)**: HTML semántico base ✅
-2. **FASE 2**: CSS responsive + tema oscuro/claro 🎨
-3. **FASE 3**: Interactividad con JS (menú, toggle, etc.) ⚡
-4. **FASE 4**: Contenido dinámico desde JSON 📑
-5. **FASE 5**: Deploy en GitHub Pages 🚀
+## 🧪 Métricas Lighthouse (medición actual)
+
+| Plataforma | Performance | Accessibility | Best Practices | SEO | Fecha |
+|-----------|-------------|---------------|----------------|-----|-------|
+| **Mobile** | **100** | **100** | **100** | **100** | 2025-10-07 |
+| **Desktop** | **100** | **100** | **100** | **100** | 2025-10-07 |
+
+
 
 ---
 
-## 👤 Autor
-Creado por **[juankaiser84](https://github.com/juankaiser84)** 
-📚 Documentando mi viaje como desarrollador web.
+## 🚀 Ejecutar en local
+
+1. Abrir la carpeta en **VS Code**.  
+2. Usar **Live Server** o abrir `index.html` en el navegador.
+
+---
+
+## 🌐 Deploy en GitHub Pages
+
+1. Repo → **Settings → Pages**.  
+2. **Build and deployment**: *Deploy from a branch*.  
+3. **Branch**: `main` · **Folder**: `/ (root)`.
+
+> Usa rutas **relativas** (`./about.html`, `./assets/...`) para que funcione en subcarpeta.
+
+---
+
+## 🗂️ Datos de posts
+
+`assets/data/posts.json` (ejemplo):
+
+```json
+[
+  {
+    "title": "Primer post de ejemplo",
+    "date": "2025-09-29",
+    "author": "Juan Kaiser",
+    "summary": "Este es un post de prueba para el Blog Interactivo.",
+    "link": "./posts/primer-post.html"
+  }
+]
+
+
+🗺️ Próximos pasos (no implementados aún)
+
+Página 404.html para GitHub Pages
+
+Envío real del formulario de contacto (servicio externo)
+
+Etiquetas/categorías y filtros
+
+RSS/JSON Feed
+
+
+
