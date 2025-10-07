@@ -428,3 +428,13 @@ header{min-height:60px;display:flex;align-items:center}
 @media (max-width: 480px){
   .sk-anim::after { content: none; }
 }
+/* No pintes lo que no se ve (ahorra trabajo en móvil) */
+[data-js="posts"] article{
+  content-visibility: auto;
+  contain-intrinsic-size: 300px; /* reserva espacio aproximado */
+}
+
+/* En pantallas muy pequeñas, apagamos el brillo del skeleton */
+@media (max-width:480px){
+  .sk-anim::after{ content:none; }
+}

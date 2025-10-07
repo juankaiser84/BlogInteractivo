@@ -95,48 +95,51 @@ function initPosts() {
 
   const searchInput    = document.querySelector('#search');
   const resultsCounter = document.querySelector('#results-counter'); // aria-live="polite"
-  // ⬇️ NUEVO: oculto al iniciar
-  if (resultsCounter) resultsCounter.classList.add('visualmente-oculto');
+  if (resultsCounter) resultsCounter.classList.add('visualmente-oculto'); // oculto al iniciar
 
   const btnMore        = document.querySelector('#load-more');
   const btnLess        = document.querySelector('#load-less');
+
+  // === Optimizaciones MOBILE ===
+  const isMobile = window.matchMedia('(max-width: 480px)').matches;
+  const requestIdle = window.requestIdleCallback || (cb =>
+    setTimeout(() => cb({ didTimeout: true, timeRemaining: () => 0 }), 200)
+  );
 
   /** Estado */
   let all = [];
   let filtered = [];
   let page = 1;
-  const pageSize = 3;
+  let pageSize = isMobile ? 2 : 3; // 2 en móvil para bajar trabajo inicial
 
   /** Utilidades */
   const currentList = () => (filtered.length ? filtered : all);
   const sliceByPage = (list) => list.slice(0, page * pageSize);
 
-  /** Render */
-function render(list) {
-  // Construimos TODO el HTML en memoria y lo insertamos una sola vez
-  let html = `<h2 id="titulo-posts">Últimos Posts</h2>`;
-  for (const post of list) {
-    html += `
-      <article>
-        <header>
-          <h3>${post.title}</h3>
-          <p>
-            <time datetime="${post.date}">${post.dateLabel}</time> · ${post.author}
-          </p>
-        </header>
-        <p>${post.summary}</p>
-        <footer><a href="${post.link}">Leer más →</a></footer>
-      </article>
-    `;
+  /** Render (una sola pasada) */
+  function render(list) {
+    let html = `<h2 id="titulo-posts">Últimos Posts</h2>`;
+    for (const post of list) {
+      html += `
+        <article>
+          <header>
+            <h3>${post.title}</h3>
+            <p>
+              <time datetime="${post.date}">${post.dateLabel}</time> · ${post.author}
+            </p>
+          </header>
+          <p>${post.summary}</p>
+          <footer><a href="${post.link}">Leer más →</a></footer>
+        </article>
+      `;
+    }
+    postsRoot.innerHTML = html;
+
+    // Accesibilidad: contador
+    if (resultsCounter) resultsCounter.textContent = `${list.length} resultados`;
+
+    updateButtons();
   }
-  postsRoot.innerHTML = html;
-
-  // Accesibilidad: contador
-  if (resultsCounter) resultsCounter.textContent = `${list.length} resultados`;
-
-  updateButtons();
-}
-
 
   function updateButtons() {
     const total = currentList().length;
@@ -144,20 +147,21 @@ function render(list) {
     if (btnLess) btnLess.hidden = page <= 1;
   }
 
-  const debounce = (fn, wait=150) => {
-  let t; return (...args) => { clearTimeout(t); t = setTimeout(()=>fn(...args), wait); };
-    };
+  // Debounce para búsqueda (ahorra trabajo en móviles)
+  const debounce = (fn, wait = 150) => {
+    let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+  };
 
   /** Eventos */
   searchInput?.addEventListener('input', debounce((e) => {
-  const term = e.target.value.trim().toLowerCase();
-  filtered = term
-    ? all.filter(p => p.title.toLowerCase().includes(term) || p.summary.toLowerCase().includes(term))
-    : [];
-  page = 1;
-  render(sliceByPage(currentList()));
-  if (resultsCounter) resultsCounter.classList.toggle('visualmente-oculto', term.length === 0);
-    }, 150));
+    const term = e.target.value.trim().toLowerCase();
+    filtered = term
+      ? all.filter(p => p.title.toLowerCase().includes(term) || p.summary.toLowerCase().includes(term))
+      : [];
+    page = 1;
+    render(sliceByPage(currentList()));
+    if (resultsCounter) resultsCounter.classList.toggle('visualmente-oculto', term.length === 0);
+  }, 150));
 
   btnMore?.addEventListener('click', () => {
     page++;
@@ -171,27 +175,35 @@ function render(list) {
     btnLess.focus();
   });
 
+  /** Carga inicial */
+  fetch('assets/data/posts.json')
+    .then(r => r.json())
+    .then(data => {
+      // Precalcula la etiqueta de fecha UNA SOLA VEZ
+      all = (Array.isArray(data) ? data : []).map(p => ({
+        ...p,
+        dateLabel: new Date(p.date).toLocaleDateString('es-ES', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        })
+      }));
+      page = 1;
 
-/** Carga inicial */
+      // Si tienes el skeleton HTML, quítalo antes de renderizar contenido real
+      document.querySelector('.posts-skeleton')?.remove();
 
-fetch('assets/data/posts.json')
-  .then(r => r.json())
-  .then(data => {
-  // Precalcula la etiqueta de fecha UNA SOLA VEZ
-  all = (Array.isArray(data) ? data : []).map(p => ({
-    ...p,
-    dateLabel: new Date(p.date).toLocaleDateString('es-ES', {
-    day: 'numeric', month: 'long', year: 'numeric'})
-    }));
-    page = 1;
+      // Render inicial: 2 cards en móvil, 3 en desktop
+      render(sliceByPage(all));
 
-  // Si tienes el skeleton HTML, quítalo antes de renderizar contenido real
-    document.querySelector('.posts-skeleton')?.remove();
-    render(sliceByPage(all));
+      // En móvil, completa la 3.ª card cuando el hilo esté libre
+      if (isMobile && pageSize === 2) {
+        requestIdle(() => {
+          pageSize = 3;
+          render(sliceByPage(all));
+        });
+      }
     })
-  .catch(err => {
-    console.error('Error cargando posts:', err);
-    postsRoot.insertAdjacentHTML('beforeend', `<p>No se pudieron cargar los posts.</p>`);
-  });
-
+    .catch(err => {
+      console.error('Error cargando posts:', err);
+      postsRoot.insertAdjacentHTML('beforeend', `<p>No se pudieron cargar los posts.</p>`);
+    });
 }
