@@ -169,34 +169,15 @@ function initPosts() {
     btnLess.focus();
   });
 
-  /* Skeleton: reserva espacio para evitar saltos */
-function renderSkeleton(count = 3){
-  postsRoot.innerHTML = `<h2 id="titulo-posts">Últimos Posts</h2>`;
-  const wrap = document.createElement('div');
-  wrap.className = 'posts-skeleton';
-  for (let i=0;i<count;i++){
-    const card = document.createElement('div');
-    card.className = 'sk-card sk-anim';
-    card.innerHTML = `
-      <div style="padding:16px 18px">
-        <div class="sk-line h24 w70"></div>
-        <div class="sk-line w30"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line w50"></div>
-      </div>`;
-    wrap.appendChild(card);
-  }
-  postsRoot.appendChild(wrap);
-}
 
 /** Carga inicial */
-renderSkeleton(3); // ⬅️ NUEVO: reserva espacio (3 cards)
 
 fetch('assets/data/posts.json')
   .then(r => r.json())
   .then(data => {
     all = Array.isArray(data) ? data : [];
     page = 1;
+    document.querySelector('.posts-skeleton')?.remove();
     render(sliceByPage(all)); // reemplaza skeleton por contenido real
   })
   .catch(err => {

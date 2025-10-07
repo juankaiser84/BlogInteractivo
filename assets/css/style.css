@@ -421,3 +421,5 @@ nav,
   transform:translateX(-100%);animation:sk 1.2s infinite;
 }
 @keyframes sk{to{transform:translateX(100%)}}
+
+header{min-height:60px;display:flex;align-items:center}
