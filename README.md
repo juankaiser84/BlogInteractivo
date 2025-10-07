@@ -86,6 +86,8 @@ BlogInteractivo/
 ]
 
 
+//
+
 🗺️ Próximos pasos (no implementados aún)
 
 Página 404.html para GitHub Pages
