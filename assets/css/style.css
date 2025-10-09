@@ -300,3 +300,48 @@ a{ color: inherit; text-decoration: none }
 [data-theme="dark"] .card{ background: var(--color-surface-2); color: var(--color-text-inv) }
 [data-theme="dark"] .post{ background: var(--color-surface-2) }
 [data-theme="dark"] #themeToggle{ border-color: var(--color-accent); color: var(--color-accent) }
+
+/* ====== Layout principal: contenido + sidebar ====== */
+.layout {
+  /* Contenedor padre de posts + sidebar */
+  display: grid;
+  grid-template-columns: 1fr;            /* móvil: 1 columna */
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {             /* escritorio */
+  .layout {
+    grid-template-columns: minmax(0, 3fr) minmax(260px, 1.2fr); /* contenido / sidebar */
+  }
+}
+
+/* Evitar que el sidebar flote o se superponga */
+.sidebar {
+  position: static !important;
+  width: auto !important;
+  max-width: 100%;
+}
+
+/* ====== Grid de posts ====== */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;                           /* separaciones consistentes */
+  align-items: stretch;
+}
+
+/* Las tarjetas no deben fijar ancho ni margen externo que rompa el grid */
+.post-card {
+  width: 100% !important;
+  margin: 0 !important;
+  /* si había flex-basis o width fijos, esto lo neutraliza */
+  flex: 1 1 auto;
+}
+
+/* ====== Contenedor central y respiración ====== */
+.container {
+  max-width: 1200px;                     /* asegúrate de no quedar demasiado angosto */
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
