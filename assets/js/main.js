@@ -170,13 +170,15 @@ const STATE = {
 
 /**
  * Crea el HTML de una tarjeta de post, usando contenedor con aspect-ratio
- * para evitar CLS cuando carga la imagen.
+ * y tamaños fijos de imagen para bajar CLS.
  */
 const renderCard = (post) => {
   const humanDate = formatDate(post.date);
   const a11yDate = post.date;
   const media = post.image
-    ? `<div class="card__media media media--16x9"><img src="${post.image}" alt="" loading="lazy" decoding="async"></div>`
+    ? `<div class="card__media media media--16x9">
+         <img src="${post.image}" alt="" loading="lazy" decoding="async" width="640" height="360">
+       </div>`
     : '';
   const cat = post.category ? `<span class="badge">${post.category}</span>` : '';
 
@@ -194,6 +196,7 @@ const renderCard = (post) => {
     </article>
   `;
 };
+
 
 const updateCounter = () => {
   if (!els.resultsCounter) return;
@@ -338,7 +341,7 @@ const applySearch = (query) => {
    ====================================================== */
 const bindUI = () => {
   if (els.searchInput) {
-    const onType = debounce((e) => applySearch(e.target.value), 180);
+    const onType = debounce((e) => applySearch(e.target.value), 300);
     els.searchInput.addEventListener('input', onType);
   }
   if (els.btnMore) {
