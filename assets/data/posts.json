@@ -5,7 +5,7 @@
     "date": "2025-09-30",
     "author": "Juan Kaiser",
     "summary": "Este es un post de prueba para el Blog Interactivo.",
-    "link": "#"
+    "link": "./posts/primer-post-de-ejemplo.html"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "date": "2025-10-01",
     "author": "Juan Kaiser",
     "summary": "Cómo usar etiquetas semánticas para mejorar accesibilidad y SEO.",
-    "link": "#"
+    "link": "./posts/aprendiendo-html-semantico.html"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "date": "2025-10-02",
     "author": "Juan Kaiser",
     "summary": "Usando variables de CSS para crear temas dinámicos y consistentes.",
-    "link": "#"
+    "link": "./posts/css-variables-y-temas.html"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "date": "2025-10-03",
     "author": "Juan Kaiser",
     "summary": "Cómo implementar un menú adaptable en móviles y escritorio con JavaScript.",
-    "link": "#"
+    "link": "./posts/menu-hamburguesa-responsive.html"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "date": "2025-10-04",
     "author": "Juan Kaiser",
     "summary": "Activando un modo oscuro y claro con CSS Variables y localStorage.",
-    "link": "#"
+    "link": "./posts/tema-claro-y-oscuro-con-toggle.html"
   },
   {
     "id": 6,
@@ -45,6 +45,6 @@
     "date": "2025-10-05",
     "author": "Juan Kaiser",
     "summary": "Cómo mostrar posts dinámicamente en HTML leyendo un archivo JSON.",
-    "link": "#"
+    "link": "./posts/carga-dinamica-desde-json.html"
   }
 ]

@@ -1,102 +1,105 @@
-# 📖 Blog Interactivo
+# Blog Interactivo
 
-Blog estático hecho con **HTML5, CSS3 y JavaScript ES6+** para documentar mi aprendizaje como desarrollador.  
-Enfoque: **Learning in Public** y buenas prácticas desde el inicio (accesibilidad, rendimiento y SEO).
+Blog personal de estilo de vida digital y aprendizaje en público.  
+**Stack:** HTML5, CSS3 (BEM, mobile-first), JavaScript ES6+, JSON y PHP (backend local).
 
-> Hosting: **GitHub Pages** · Enfoque **mobile-first** · Modo **claro/oscuro**
-
----
-
-## ✨ Funcionalidades actuales
-
-- **Diseño responsive (mobile-first)**
-- **Tema claro/oscuro** con toggle y preferencia guardada en `localStorage`
-- **Menú móvil accesible** (teclado, `aria-expanded`, cierre al navegar)
-- **Posts dinámicos** desde `assets/data/posts.json`
-- **Búsqueda en tiempo real** (con `aria-live` para resultados)
-- **Paginación**: *Cargar más* / *Cargar menos*
-- **Accesibilidad base**: HTML semántico, skip-link, foco visible, contrastes
-- **SEO on-page**: títulos/metas únicos, OpenGraph/Twitter, `robots.txt`, `sitemap.xml`
-- **Optimización**: render de una pasada, skeleton para estabilidad de layout, `defer`, `content-visibility`
-
-> Nota: existen páginas `index.html`, `about.html` y `contact.html` (formulario básico, sin backend todavía).
+> 🔄 Estado actual: front estable + **switch automático** entre JSON estático y backend PHP **solo en local**.
 
 ---
 
-## 📂 Estructura
+## ✨ Características
+
+- Diseño **responsive** (mobile-first).
+- **Tema claro/oscuro** con toggle y persistencia (`localStorage`).
+- **Búsqueda en tiempo real** (título y resumen).
+- **Paginación**: cargar más / cargar menos.
+- **Posts dinámicos** desde `assets/data/posts.json` ó **backend PHP** (switch).
+- Semántica + A11Y (roles/ARIA esenciales).
+- Objetivo Lighthouse **90+** (Perf/A11Y/SEO).
+
+---
+
+## 🧠 Cómo funciona el *switch* (JSON ↔ PHP)
+
+El front intenta `./backend/api/env.php`:
+
+1. Si responde `{ "APP_ENV": "php" }` → usa `./backend/api/posts.php` (lectura desde PHP).
+2. Si no responde o no es JSON válido → **fallback** a `./assets/data/posts.json`.
+
+Así:
+- **Live Server (127.0.0.1:5500)** → siempre JSON (no ejecuta PHP).
+- **localhost** (XAMPP/WAMP/MAMP) → usa PHP si está disponible.
+
+> La carpeta es **`backend/`** (minúsculas), en la **raíz** del proyecto.
+
+---
+
+## 🛠️ Puesta en marcha
+
+### A) Estático (Live Server)
+1. Abrir con VS Code → **Go Live**.
+2. Visitar `http://127.0.0.1:5500/`.
+3. Fuente de datos: `assets/data/posts.json`.
+
+### B) Localhost con PHP
+1. Copiar a la carpeta pública:
+   - XAMPP: `C:\xampp\htdocs\BlogInteractivo\`
+   - WAMP: `C:\wamp64\www\BlogInteractivo\`
+   - MAMP: `...\Applications\MAMP\htdocs\BlogInteractivo\`
+2. Visitar `http://localhost/BlogInteractivo/`
+3. Endpoints:
+   - `backend/api/env.php` → `{"APP_ENV":"php"}`
+   - `backend/api/posts.php` → lista de posts (JSON)
+
+---
+
+## 🗂️ Estructura (resumen)
 
 BlogInteractivo/
-├── index.html
-├── about.html
-├── contact.html
-├── assets/
-│ ├── css/
-│ │ └── style.css
-│ ├── js/
-│ │ └── main.js
-│ ├── data/
-│ │ └── posts.json
-│ └── img/
-└── README.md
+├─ assets/
+│ ├─ css/
+│ ├─ data/
+│ │ ├─ posts.json
+│ │ └─ app-env.json # opcional (forzar “static”), está en .gitignore
+│ ├─ img/
+│ └─ js/
+│ └─ main.js # menú, tema, búsqueda, paginación y switch
+├─ backend/
+│ └─ api/
+│ ├─ env.php # {"APP_ENV":"php"}
+│ └─ posts.php # GET posts en JSON
+├─ posts/
+├─ about.html
+├─ contact.html
+├─ 404.html
+└─ README.md
 
 
 ---
 
-## 🧪 Métricas Lighthouse (medición actual)
+## 🚀 Roadmap
 
-| Plataforma | Performance | Accessibility | Best Practices | SEO | Fecha |
-|-----------|-------------|---------------|----------------|-----|-------|
-| **Mobile** | **100** | **100** | **100** | **100** | 2025-10-07 |
-| **Desktop** | **100** | **100** | **100** | **100** | 2025-10-07 |
-
-
-
----
-
-## 🚀 Ejecutar en local
-
-1. Abrir la carpeta en **VS Code**.  
-2. Usar **Live Server** o abrir `index.html` en el navegador.
+- [ ] SEO on-page: `<title>` por página, `meta description`, datos estructurados mínimos.
+- [ ] Accesibilidad: `:focus-visible`, roles adicionales y contraste.
+- [ ] Lighthouse ≥ 90 (Perf, A11y y SEO).
+- [ ] (Opcional) CRUD backend: crear/editar/borrar + panel `/backend/admin/`.
+- [ ] Deploy front en GitHub Pages (modo JSON). Backend necesita hosting con PHP.
 
 ---
 
-## 🌐 Deploy en GitHub Pages
+## 🧪 Comandos Git útiles
 
-1. Repo → **Settings → Pages**.  
-2. **Build and deployment**: *Deploy from a branch*.  
-3. **Branch**: `main` · **Folder**: `/ (root)`.
+```bash
+git add .
+git commit -m "feat: backend local + switch JSON↔PHP"
+git push
 
-> Usa rutas **relativas** (`./about.html`, `./assets/...`) para que funcione en subcarpeta.
+📝 Cambios destacados (esta versión)
 
----
+    Nuevo: backend PHP local (backend/api/) con env.php + posts.php.
 
-## 🗂️ Datos de posts
+    Nuevo: switch automático (PHP ↔ JSON) con fallback seguro.
 
-`assets/data/posts.json` (ejemplo):
+    Docs: README y .gitignore.
 
-```json
-[
-  {
-    "title": "Primer post de ejemplo",
-    "date": "2025-09-29",
-    "author": "Juan Kaiser",
-    "summary": "Este es un post de prueba para el Blog Interactivo.",
-    "link": "./posts/primer-post.html"
-  }
-]
-
-
-//
-
-🗺️ Próximos pasos (no implementados aún)
-
-Página 404.html para GitHub Pages
-
-Envío real del formulario de contacto (servicio externo)
-
-Etiquetas/categorías y filtros
-
-RSS/JSON Feed
-
-
-
+    Mantenimiento: rutas relativas y backend/ en minúsculas.

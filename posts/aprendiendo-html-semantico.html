@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aprendiendo HTML semántico | Blog Interactivo</title>
+  <meta name="description" content="Buenas prácticas de HTML semántico para mejorar accesibilidad y SEO desde el inicio." />
+  <meta name="author" content="Juan Kaiser" />
+  <link rel="canonical" href="https://juankaiser84.github.io/BlogInteractivo/posts/aprendiendo-html-semantico.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Aprendiendo HTML semántico" />
+  <meta property="og:description" content="Cómo usar etiquetas semánticas y roles ARIA de forma práctica." />
+  <meta property="og:image" content="../assets/img/lhdesktop.jpg" />
+  <meta property="og:url" content="https://juankaiser84.github.io/BlogInteractivo/posts/aprendiendo-html-semantico.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="../" aria-label="Ir a la página de inicio"><span class="site-header__logo" aria-hidden="true">🧩</span><span class="site-header__title">Blog Interactivo</span></a>
+      <button id="themeToggle" class="btn btn--icon" type="button" aria-pressed="false" aria-label="Cambiar tema claro u oscuro">🌙</button>
+      <button id="menuToggle" class="btn btn--icon site-header__menu-btn" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú de navegación">☰</button>
+      <nav id="mainNav" class="nav" aria-label="Navegación principal">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="../">Inicio</a></li>
+          <li class="nav__item"><a class="nav__link" href="../about.html">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="../contact.html">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="contenido" class="site-main" role="main">
+    <article class="post">
+      <header class="post__header">
+        <h1 class="post__title">Aprendiendo HTML semántico</h1>
+        <p class="post__meta"><time datetime="2025-10-01">1 Oct 2025</time> · por Juan Kaiser</p>
+      </header>
+      <div class="post__content">
+        <p>Usar etiquetas como <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code> y títulos jerárquicos ayuda a lectores de pantalla y buscadores.</p>
+        <ul>
+          <li>Un solo <code>&lt;h1&gt;</code> por página.</li>
+          <li>Orden lógico de headings (<code>h2</code> dentro del contenido).</li>
+          <li>Texto alternativo descriptivo en imágenes.</li>
+        </ul>
+      </div>
+      <footer class="post__footer">
+        <a class="btn btn--secondary" href="../">← Volver al inicio</a>
+      </footer>
+    </article>
+  </main>
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <p>&copy; <span id="year"></span> Juan Kaiser — Aprendizaje en público.</p>
+    </div>
+  </footer>
+  <script src="../assets/js/main.js" defer></script>
+</body>
+</html>

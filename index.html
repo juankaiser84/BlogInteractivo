@@ -1,128 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <!-- Metadatos básicos -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Interactivo</title>
+<head>
+  <!-- ==========================
+       META BÁSICOS (SEO + MOBILE)
+  =========================== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog Interactivo | Aprendizaje en público de desarrollo web</title>
+  <meta name="description" content="Blog personal de estilo de vida digital. Documentación honesta de mi viaje como desarrollador: HTML, CSS, JavaScript, rendimiento, accesibilidad y buenas prácticas." />
+  <meta name="author" content="Juan Kaiser" />
 
-    <!-- SEO básico -->
-    <meta name="description" content="Blog personal de desarrollo web, productividad y vida digital.">
-    <meta name="author" content="Tu Nombre">
+  <!-- Canonical: URL pública correcta en GitHub Pages -->
+  <link rel="canonical" href="https://juankaiser84.github.io/BlogInteractivo/" />
 
-    <!-- Aquí enlazaremos el CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Open Graph para compartir en redes -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Blog Interactivo" />
+  <meta property="og:description" content="Aprendizaje en público: desarrollo web, rendimiento, accesibilidad y buenas prácticas." />
+  <!-- Usa una imagen que exista en tu repo; cámbiala cuando tengas un og.png dedicado -->
+  <meta property="og:image" content="./assets/img/lhdesktop.jpg" />
+  <meta property="og:url" content="https://juankaiser84.github.io/BlogInteractivo/" />
 
-    <!-- === SEO extra (añadir antes de </head>) === -->
-    <link rel="canonical" href="https://kaiser84.github.io/BlogInteractivo/">
-    <meta property="og:title" content="Blog Interactivo — Inicio">
-    <meta property="og:description" content="Posts sobre desarrollo, productividad y aprendizaje.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://kaiser84.github.io/BlogInteractivo/assets/img/og.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="./assets/img/favicon.ico">
-    <meta name="theme-color" content="#0ea5e9">
+  <!-- Twitter Cards básico -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blog Interactivo" />
+  <meta name="twitter:description" content="Aprendizaje en público de desarrollo web." />
+  <meta name="twitter:image" content="./assets/img/lhdesktop.jpg" />
 
-  </head>
-  <body>
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-  <!-- ================= HEADER ================= -->
+  <!-- Color del tema en navegadores móviles -->
+  <meta name="theme-color" content="#0f172a" />
 
-  <header>
-    <div class="logo">
-      <h1>Blog Interactivo</h1>
+  <!-- ==========================
+       CSS PRINCIPAL (BEM / mobile-first)
+  =========================== -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+  <!-- Enlace de salto para accesibilidad (ir directo al contenido) -->
+  <a class="skip-link" href="#contenido" tabindex="0">Saltar al contenido</a>
+
+  <!-- ==========================
+       CABECERA
+  =========================== -->
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="./" aria-label="Ir a la página de inicio">
+        <span class="site-header__logo" aria-hidden="true">🧩</span>
+        <span class="site-header__title">Blog Interactivo</span>
+      </a>
+
+      <!-- Botón de tema claro/oscuro -->
+      <button id="themeToggle"
+              class="btn btn--icon"
+              type="button"
+              aria-pressed="false"
+              aria-label="Cambiar tema claro u oscuro">
+        🌙
+      </button>
+
+      <!-- Botón menú móvil (hamburguesa) -->
+      <button id="menuToggle"
+              class="btn btn--icon site-header__menu-btn"
+              type="button"
+              aria-expanded="false"
+              aria-controls="mainNav"
+              aria-label="Abrir menú de navegación">
+        ☰
+      </button>
+
+      <!-- Navegación principal -->
+      <nav id="mainNav" class="nav" aria-label="Navegación principal">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+          <li class="nav__item"><a class="nav__link" href="./about.html">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html">Contacto</a></li>
+        </ul>
+      </nav>
     </div>
-
-    <!-- Botón hamburguesa (solo visible en móviles) -->
-    <button class="nav-toggle" aria-label="Abrir menú">
-      ☰
-    </button>
-
-    <nav aria-label="Menú principal">
-      <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="about.html">Sobre mí</a></li>
-      <li><a href="contact.html">Contacto</a></li>
-      </ul>
-    </nav>
-
-    <!-- Botón toggle de tema -->
-    <button class="theme-toggle" aria-label="Cambiar tema">
-      <span class="icon"></span>
-    </button>
-
   </header>
-    
 
-  <!-- ================= CONTENIDO PRINCIPAL ================= -->
-  <main id="main">
+  <!-- ==========================
+       CONTENIDO PRINCIPAL
+  =========================== -->
+  <main id="contenido" class="site-main" role="main">
+    <!-- Sección: buscador -->
+    <section class="search" aria-labelledby="searchTitle">
+      <div class="container">
+        <h1 id="searchTitle" class="search__title">Últimos posts</h1>
 
-  <!-- Barra de búsqueda -->
-    <div class="search-bar">
-      <label for="search">Buscar posts:</label>
-      <input type="text" id="search" placeholder="Escribe para filtrar...">
-      <p id="results-counter" aria-live="polite" class="visualmente-oculto"></p>
-    </div>
+        <form class="search__form" role="search" aria-label="Buscar posts">
+          <label class="search__label" for="search-input">Buscar</label>
+          <input id="search-input"
+                 class="search__input"
+                 type="search"
+                 name="q"
+                 placeholder="Escribe para filtrar por título o resumen…"
+                 autocomplete="off"
+                 aria-describedby="searchHelp" />
+          <p id="searchHelp" class="visually-hidden">Los resultados se actualizan en tiempo real.</p>
+        </form>
 
-  <!-- Sección de posts -->
-    <section aria-labelledby="titulo-posts" data-js="posts">
-      <h2 id="titulo-posts">Últimos Posts</h2>
-    
-      <!-- Skeleton prerenderizado para evitar CLS -->
-  <div class="posts-skeleton">
-    <div class="sk-card sk-anim">
-      <div style="padding:16px 18px">
-        <div class="sk-line h24 w70"></div>
-        <div class="sk-line w30"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line w50"></div>
+        <!-- (Futuro) Filtros por categoría; por ahora el contenedor queda listo -->
+        <div class="filters" aria-label="Filtrar por categoría">
+          <!-- Los botones de categorías se inyectarán desde main.js cuando implementemos el módulo -->
+        </div>
       </div>
-    </div>
-    <div class="sk-card sk-anim">
-      <div style="padding:16px 18px">
-        <div class="sk-line h24 w70"></div>
-        <div class="sk-line w30"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line w50"></div>
+    </section>
+
+    <!-- Sección: listados (render dinámico desde posts.json o API) -->
+    <section class="posts" aria-live="polite" aria-busy="true">
+      <div class="container">
+        <!-- Skeleton de carga para estabilidad visual; se reemplaza con artículos reales desde JS -->
+        <div class="posts__grid" id="posts-container">
+          <article class="card card--skeleton" aria-hidden="true"></article>
+          <article class="card card--skeleton" aria-hidden="true"></article>
+          <article class="card card--skeleton" aria-hidden="true"></article>
+          <article class="card card--skeleton" aria-hidden="true"></article>
+        </div>
+
+        <!-- Contador de resultados accesible -->
+        <p id="results-counter" class="posts__counter" aria-live="polite">Cargando publicaciones…</p>
+
+        <!-- Controles de paginación progresiva -->
+        <div class="posts__actions">
+          <button id="btn-load-more" class="btn" type="button">Cargar más</button>
+          <button id="btn-load-less" class="btn btn--secondary" type="button">Cargar menos</button>
+        </div>
+
+        <!-- Estado "sin resultados" (oculto por defecto; lo maneja JS) -->
+        <div id="empty-state" class="empty" hidden>
+          <p class="empty__text">No encontramos resultados para tu búsqueda / filtros.</p>
+          <button class="btn btn--secondary" type="button" id="clear-filters-btn">Limpiar filtros</button>
+        </div>
       </div>
+    </section>
+  </main>
+
+  <!-- ==========================
+       PIE DE PÁGINA
+  =========================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <p>&copy; <span id="year"></span> Juan Kaiser — Aprendizaje en público.</p>
+      <nav class="nav nav--footer" aria-label="Enlaces secundarios">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./about.html">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html">Contacto</a></li>
+          <li class="nav__item"><a class="nav__link" href="./404.html">404</a></li>
+        </ul>
+      </nav>
     </div>
-    <div class="sk-card sk-anim">
-      <div style="padding:16px 18px">
-        <div class="sk-line h24 w70"></div>
-        <div class="sk-line w30"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line w50"></div>
-      </div>
+  </footer>
+
+  <!-- Mensaje para usuarios con JS deshabilitado -->
+  <noscript>
+    <div class="noscript">
+      Este sitio necesita JavaScript para mostrar los posts dinámicos. Actívalo, por favor.
     </div>
-  </div>
+  </noscript>
 
-    <!-- Ejemplo de artículo -->
-    <article>
-    <header>
-      <h3>Título de un post de ejemplo</h3>
-      <p><time datetime="2025-10-01">1 Octubre 2025</time> · Autor</p>
-    </header>
-      <p>
-      Aquí irá un resumen del post. El contenido real vendrá dinámicamente desde un JSON más adelante.
-      </p>
-    <footer>
-      <a href="#">Leer más →</a>
-    </footer>
-    </article>
-
-        <!-- Más artículos se cargarán dinámicamente -->
-      </section>
-      <button id="load-more">Cargar más</button>
-      <button id="load-less" style="display: none;">Cargar menos</button>
-
-    </main>
-
-    <!-- ================= FOOTER ================= -->
-    <footer>
-      <p>&copy; 2025 Blog Interactivo. Todos los derechos reservados.</p>
-      <p><a href="contact.html">Contáctame</a></p>
-    </footer>
-    <script src="assets/js/main.js" defer></script>
-
-  </body>
+  <!-- ==========================
+       JS PRINCIPAL
+  =========================== -->
+  <script src="./assets/js/main.js" defer></script>
+</body>
 </html>

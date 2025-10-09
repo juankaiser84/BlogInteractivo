@@ -1,68 +1,195 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto - Blog Interactivo</title>
-  <meta name="description" content="Página de contacto del Blog Interactivo. Envía un mensaje.">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contacto | Blog Interactivo</title>
+  <meta name="description" content="Ponte en contacto: dudas, sugerencias o colaboraciones relacionadas con el Blog Interactivo." />
+  <meta name="author" content="Juan Kaiser" />
+  <link rel="canonical" href="https://juankaiser84.github.io/BlogInteractivo/contact.html" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contacto — Blog Interactivo" />
+  <meta property="og:description" content="Escríbeme para dudas o colaboraciones." />
+  <meta property="og:image" content="./assets/img/lhdesktop.jpg" />
+  <meta property="og:url" content="https://juankaiser84.github.io/BlogInteractivo/contact.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
-  <!-- ================= HEADER ================= -->
-  <header>
-    <div class="logo">
-    <h1>Blog Interactivo</h1>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="./" aria-label="Ir a la página de inicio">
+        <span class="site-header__logo" aria-hidden="true">🧩</span>
+        <span class="site-header__title">Blog Interactivo</span>
+      </a>
+
+      <button id="themeToggle" class="btn btn--icon" type="button" aria-pressed="false" aria-label="Cambiar tema">🌙</button>
+      <button id="menuToggle" class="btn btn--icon site-header__menu-btn" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú">☰</button>
+
+      <nav id="mainNav" class="nav" aria-label="Navegación principal">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+          <li class="nav__item"><a class="nav__link" href="./about.html">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html" aria-current="page">Contacto</a></li>
+        </ul>
+      </nav>
     </div>
-
-    <!-- Botón hamburguesa (solo visible en móviles) -->
-    <button class="nav-toggle" aria-label="Abrir menú">
-        ☰
-    </button>
-    
-    <nav aria-label="Menú principal">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="about.html">Sobre mí</a></li>
-        <li><a href="contact.html" aria-current="page">Contacto</a></li>
-      </ul>
-    </nav>
-    <!-- Botón toggle de tema -->
-    <button class="theme-toggle" aria-label="Cambiar tema">
-    <span class="icon"></span>
-    </button>
-
   </header>
 
-  <!-- ================= CONTENIDO PRINCIPAL ================= -->
-  <main>
-    <section aria-labelledby="titulo-contacto">
-      <h2 id="titulo-contacto">Contáctame</h2>
-      <p>Si quieres enviarme un mensaje, rellena este formulario:</p>
+  <!-- Main -->
+  <main id="contenido" class="site-main" role="main">
+    <section class="container" style="max-width:820px; margin: 2rem auto;">
+      <h1 style="text-align:center; margin-bottom:.25rem;">Contacto</h1>
+      <p style="text-align:center; opacity:.85; margin-top:0;">¿Tienes una idea o feedback? ¡Te leo!</p>
 
-      <form action="#" method="post">
+      <!-- Formspree -->
+      <form
+        action="https://formspree.io/f/mjkaezjw"
+        method="POST"
+        accept-charset="UTF-8"
+        class="contact-form"
+        style="margin-top:1.5rem;"
+      >
+        <!-- Honeypot anti-spam -->
+        <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
+          <label for="_gotcha">No llenar este campo</label>
+          <input id="_gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
         <!-- Nombre -->
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <div class="form-row" style="margin-bottom:1rem;">
+          <label for="name" class="form-label">Nombre</label>
+          <input id="name" name="name" type="text" class="form-input"
+                 required autocomplete="name" placeholder="Tu nombre" />
+        </div>
 
         <!-- Email -->
-        <label for="email">Correo electrónico:</label>
-        <input type="email" id="email" name="email" required>
+        <div class="form-row" style="margin-bottom:1rem;">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input id="email" name="email" type="email" class="form-input"
+                 required autocomplete="email" inputmode="email" placeholder="tu@correo.com" />
+        </div>
+
+        <!-- Asunto -->
+        <div class="form-row" style="margin-bottom:1rem;">
+          <label for="subject" class="form-label">Asunto</label>
+          <input id="subject" name="subject" type="text" class="form-input"
+                 required maxlength="120" placeholder="Tema del mensaje" />
+        </div>
 
         <!-- Mensaje -->
-        <label for="mensaje">Mensaje:</label>
-        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+        <div class="form-row" style="margin-bottom:1rem;">
+          <label for="message" class="form-label">Mensaje</label>
+          <textarea id="message" name="message" class="form-input" rows="6"
+                    required placeholder="Cuéntame en qué puedo ayudarte…"></textarea>
+        </div>
 
-        <!-- Botón -->
-        <button type="submit">Enviar</button>
+        <!-- Preferencia de respuesta -->
+        <fieldset class="form-row" style="margin-bottom:1rem;">
+          <legend class="form-label">¿Cómo prefieres que te responda?</legend>
+          <label style="display:inline-flex; gap:.5rem; align-items:center; margin-right:1rem;">
+            <input type="radio" name="reply_via" value="email" checked /> Email
+          </label>
+          <label style="display:inline-flex; gap:.5rem; align-items:center;">
+            <input type="radio" name="reply_via" value="ninguna" /> Solo recibo confirmación
+          </label>
+        </fieldset>
+
+        <!-- Config extra Formspree -->
+        <input type="hidden" name="_subject" value="Nuevo mensaje desde el Blog Interactivo" />
+        <!-- Redirección dinámica (se completa por JS) -->
+        <input type="hidden" name="_next" id="fs-next" value="" />
+        <!-- Formato del email -->
+        <input type="hidden" name="_format" value="plain" />
+
+        <!-- Acciones -->
+        <div style="display:flex; gap:.75rem; flex-wrap:wrap; align-items:center;">
+          <button type="submit" class="btn" style="background:var(--color-primary); color:#0b1220;">Enviar</button>
+          <button type="reset" class="btn btn--secondary">Limpiar</button>
+          <p aria-live="polite" style="margin:0; opacity:.75;">Tiempo de respuesta estimado: 48h.</p>
+        </div>
       </form>
     </section>
   </main>
 
-  <!-- ================= FOOTER ================= -->
-  <footer>
-    <p>&copy; 2025 Blog Interactivo</p>
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <p>&copy; <span id="year"></span> Juan Kaiser — Aprendizaje en público.</p>
+      <nav class="nav nav--footer" aria-label="Enlaces secundarios">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./about.html">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html" aria-current="page">Contacto</a></li>
+          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+        </ul>
+      </nav>
+    </div>
   </footer>
-  <script src="assets/js/main.js" defer></script>
 
+  <!-- JS principal -->
+  <script src="./assets/js/main.js" defer></script>
+
+  <!-- _next dinámico (complementa el hidden) -->
+  <script>
+    (function () {
+      try {
+        var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+        var next = isLocal
+          ? location.origin + '/gracias.html'
+          : 'https://juankaiser84.github.io/BlogInteractivo/gracias.html';
+        var input = document.getElementById('fs-next');
+        if (input) input.value = next;
+      } catch (e) {
+        console.warn('No se pudo setear _next dinámico:', e);
+      }
+    })();
+  </script>
+
+  <!-- Envío por fetch + redirección manual; fallback a POST normal si falla -->
+  <script>
+    (function () {
+      var form = document.querySelector('form.contact-form');
+      if (!form) return;
+
+      var graciasURL = (location.hostname === '127.0.0.1' || location.hostname === 'localhost')
+        ? location.origin + '/gracias.html'
+        : 'https://juankaiser84.github.io/BlogInteractivo/gracias.html';
+
+      form.addEventListener('submit', function handleSubmit(e) {
+        e.preventDefault();
+
+        var endpoint = form.getAttribute('action');
+        var fd = new FormData(form);
+
+        // Si el honeypot viene lleno, abortamos (y opcionalmente redirigimos)
+        if (fd.get('_gotcha')) {
+          console.warn('Honeypot activado. Envío bloqueado.');
+          window.location.href = graciasURL;
+          return;
+        }
+
+        fetch(endpoint, {
+          method: 'POST',
+          body: fd,
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          window.location.href = graciasURL;
+        })
+        .catch(function (err) {
+          console.warn('Fallo fetch, usando submit nativo:', err);
+          form.removeEventListener('submit', handleSubmit);
+          form.submit();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
