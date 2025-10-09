@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://juankaiser84.github.io/BlogInteractivo/sitemap.xml

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/about.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/contact.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Posts (añade los que tengas) -->
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/posts/primer-post-de-ejemplo.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/posts/aprendiendo-html-semantico.html</loc>
+  </url>
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/posts/css-variables-y-temas.html</loc>
+  </url>
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/posts/menu-hamburguesa-responsive.html</loc>
+  </url>
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/posts/tema-claro-y-oscuro-con-toggle.html</loc>
+  </url>
+  <url>
+    <loc>https://juankaiser84.github.io/BlogInteractivo/posts/carga-dinamica-desde-json.html</loc>
+  </url>
+</urlset>
