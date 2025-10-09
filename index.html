@@ -37,8 +37,8 @@
   <!-- ==========================
        CSS PRINCIPAL (BEM / mobile-first)
   =========================== -->
-  <link rel="preload" href="./assets/css/style.css" as="style">
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="preload" href="./assets/css/style.css?v=1" as="style">
+  <link rel="stylesheet" href="./assets/css/style.css?v=1">
 </head>
 <body>
   <!-- Enlace de salto para accesibilidad (ir directo al contenido) -->
@@ -47,7 +47,7 @@
   <!-- ==========================
        CABECERA
   =========================== -->
-  <header class="site-header" role="banner">
+  <header class="site-header">
     <div class="site-header__inner">
       <a class="site-header__brand" href="./" aria-label="Ir a la página de inicio">
         <span class="site-header__logo" aria-hidden="true">🧩</span>
@@ -87,7 +87,7 @@
   <!-- ==========================
        CONTENIDO PRINCIPAL
   =========================== -->
-  <main id="contenido" class="site-main" role="main">
+  <main id="contenido" class="site-main">
     <!-- Sección: buscador -->
     <section class="search" aria-labelledby="searchTitle">
       <div class="container">
@@ -144,7 +144,7 @@
   <!-- ==========================
        PIE DE PÁGINA
   =========================== -->
-  <footer class="site-footer" role="contentinfo">
+  <footer class="site-footer">
     <div class="container site-footer__inner">
       <p>&copy; <span id="year"></span> Juan Kaiser — Aprendizaje en público.</p>
       <nav class="nav nav--footer" aria-label="Enlaces secundarios">
@@ -167,6 +167,6 @@
   <!-- ==========================
        JS PRINCIPAL
   =========================== -->
-  <script src="./assets/js/main.js" defer></script>
+  <script src="./assets/js/main.js?v=1" defer></script>
 </body>
 </html>
