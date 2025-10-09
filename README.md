@@ -1,189 +1,164 @@
-# Blog Interactivo — Aprendizaje en público
+# Blog Personal · Aprendizaje en Público
 
-Bitácora personal de mi viaje como desarrollador. Blog estático con posts dinámicos desde JSON, búsqueda en tiempo real, paginación progresiva y tema claro/oscuro con preferencia persistente.
+Blog estático construido con **HTML5 + CSS3 + JavaScript (ES6+)** para documentar mi viaje como desarrollador.
+Enfoque: *mobile-first*, accesibilidad básica, buen rendimiento y despliegue en **GitHub Pages**.
 
-> **Objetivo**: buenas prácticas desde el inicio (accesibilidad, rendimiento y SEO) y publicar el progreso “learning in public”.
+* **Producción:** [https://juankaiser84.github.io/BlogInteractivo/](https://juankaiser84.github.io/BlogInteractivo/)
+* **Repositorio:** [https://github.com/juankaiser84/BlogInteractivo](https://github.com/juankaiser84/BlogInteractivo)
 
 ---
 
 ## ✨ Características
 
-- **HTML semántico** + navegación accesible (skip links, focus visible, roles/labels).
-- **Tema claro/oscuro** (atributo `data-theme` en `<html>` + preferencia en `localStorage`).
-- **Menú móvil (hamburguesa)** accesible.
-- **Carga dinámica de posts** desde `assets/data/posts.json` (y compatible con backend más adelante).
-- **Búsqueda en tiempo real** (debounce) por título y resumen.
-- **Paginación progresiva**: *Cargar más* / *Cargar menos* + `IntersectionObserver`.
-- **Sidebar** (Recientes + Categorías) generada desde los datos.
-- **Anti-CLS**: `aspect-ratio` y *skeletons* de tarjetas.
-- **Responsive** (mobile-first) y layout con **sidebar a la derecha** en ≥ 900px.
-- Preparado para **GitHub Pages**.
+* Diseño **responsive** (mobile-first).
+* **Tema claro/oscuro** con preferencia guardada en `localStorage`.
+* **Menú hamburguesa** accesible (`aria-controls`, `aria-expanded`, cierre con `Escape`).
+* **Posts dinámicos** desde `JSON`.
+* **Búsqueda en tiempo real** con *debounce*.
+* **Paginación** (*Cargar más* / *Cargar menos*).
+* **Recientes** y **Categorías**.
+* Buenas prácticas de **SEO on-page** (títulos, descripciones, `lang`, `viewport`).
+* Consideraciones de **accesibilidad** (foco visible, live region de resultados, contraste).
+* Rendimiento optimizado: carga en **lotes** (rAF) y **lazy-loading** de imágenes.
 
 ---
 
-## 🧱 Tecnologías
+## 🗂️ Estructura
 
-- **HTML5**, **CSS3 (BEM & variables CSS)**, **JavaScript ES6+**
-- JSON como fuente de datos.
-- Sin frameworks ni build step obligatorio.  
-  (Opcional: puede convivir con un backend simple en PHP u otro lenguaje.)
+```
+BlogInteractivo/
+├─ index.html
+├─ about.html
+├─ contact.html
+├─ 404.html                # (opcional; recomendado para Pages)
+├─ assets/
+│  ├─ css/
+│  │  └─ style.css
+│  ├─ js/
+│  │  └─ main.js           # lógica de menú, tema, búsqueda y paginación
+│  ├─ data/
+│  │  └─ posts.json        # fuente de posts
+│  └─ img/                 # imágenes del sitio
+└─ README.md
+```
 
 ---
 
-📁 Estructura del proyecto
+## ▶️ Ejecutar en local
 
-.
-├── assets/
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   └── main.js
-│   ├── data/
-│   │   └── posts.json
-│   └── img/              # (opcional) imágenes
-├── pages/                # (opcional) páginas internas
-│   ├── about.html
-│   └── contact.html
-├── index.html
-└── README.md
+1. Clona el repo y ábrelo en VS Code.
+2. Inicia **Live Server** o abre `index.html` en tu navegador.
 
-🗂️ Formato de posts.json
+> Si ves estilos antiguos, fuerza recarga con **Ctrl/Cmd + F5** (cache bust).
 
-[
-  {
-    "id": 6,
-    "title": "Carga dinámica desde JSON",
-    "date": "2025-10-04",
-    "author": "Juan Kaiser",
-    "summary": "Cómo mostrar posts dinámicamente en HTML leyendo un archivo JSON.",
-    "link": "./posts/json.html",
-    "image": "./assets/img/posts/json.jpg",
-    "category": "General"
-  }
-]
+---
 
-Recomendaciones
+## 🚀 Despliegue en GitHub Pages
 
-    id: número incremental.
+1. En **Settings → Pages** del repo:
 
-    date: YYYY-MM-DD.
+   * *Build and deployment* → **Deploy from a branch**
+   * Branch: `main` · Folder: `/ (root)`
+2. Usa **rutas relativas** en HTML/CSS/JS (`./assets/...`).
+3. Para evitar caché, añade versión al cargar assets:
 
-    category: string única (“General”, “JavaScript”, “CSS”, etc.) para que Sidebar agrupe bien.
+   ```html
+   <link rel="stylesheet" href="./assets/css/style.css?v=YYYYMMDD">
+   <script src="./assets/js/main.js?v=YYYYMMDD" defer></script>
+   ```
 
-🔍 Búsqueda, paginación y sidebar (resumen técnico)
+**Publicar cambios**
 
-    Búsqueda: input con debounce (ej. 250 ms) filtra en memoria por title y summary.
+```bash
+git add -A
+git commit -m "feat: update blog content and styles"
+git push origin main
+```
 
-    Paginación: array de posts paginado en el estado (pageSize, pageIndex) + botones.
+---
 
-    Lazy/Auto “cargar más”: IntersectionObserver sobre un sentinel al final del listado.
+## 📊 Estado actual (Lighthouse)
 
-    Sidebar:
+* **Desktop:** Performance 100 · Accessibility 96 · Best Practices 100 · SEO 100
+* **Mobile:** Performance 95 · Accessibility 96 · Best Practices 100 · SEO 100
 
-        Recientes: últimos N por fecha.
+Notas:
 
-        Categorías: conteo por category.
+* **CLS** bajo gracias a `width/height` y `aspect-ratio` en imágenes.
+* **TBT** móvil reducido por *debounce* y render en **lotes**.
+* Pendiente menor: limpieza fina de ARIA si se añaden elementos nuevos.
 
-♿ Accesibilidad (WCAG 2.1 AA) — Checklist
+---
 
-Semántica: header, nav, main, article, aside, footer.
+## 🧩 Cómo agregar un post (JSON)
 
-Focus visible y navegable con teclado.
+Edita `assets/data/posts.json` y añade un objeto con este formato:
 
-Labels ARIA donde aplica (aria-label, aria-live, aria-expanded, aria-controls).
+```json
+{
+  "id": "post-007",
+  "title": "Mi nueva entrada",
+  "summary": "Resumen corto del post.",
+  "author": "Juan Kaiser",
+  "date": "2025-10-05",
+  "category": "General",
+  "image": "./assets/img/mi-imagen.jpg",
+  "link": "./posts/mi-nueva-entrada.html"
+}
+```
 
-Colores con contraste ≥ 4.5:1.
+Recomendaciones:
 
-prefers-reduced-motion: animaciones suaves/desactivadas.
+* Usa imágenes **16:9** y, si se insertan en HTML, incluye `width="640" height="360"` + `loading="lazy"`.
 
-    Imágenes con alt descriptivo; decorativas con alt="".
+---
 
-⚡ Rendimiento (meta Lighthouse 95–100)
+## ♿ Accesibilidad (WCAG 2.1 AA · básico)
 
-Anti-CLS: aspect-ratio + skeletons.
+* `lang="es"` y `meta viewport`.
+* Foco visible para teclado.
+* Live region única `role="status"` para el contador de resultados.
+* Menú con `aria-controls`/`aria-expanded` y cierre con `Escape`.
+* Contraste AA en botones/badges (texto oscuro sobre cyan, blanco sobre púrpura).
+* Evitar ARIA redundante (no `aria-label` si el texto del link ya es claro).
 
-Trabajo en JS minimal (vanilla, sin librerías pesadas).
+---
 
-(Pendiente) optimizar imágenes (dimensionadas, loading="lazy", formatos modernos).
+## 🧠 Decisiones técnicas clave
 
-(Pendiente) preconnect y dns-prefetch si hay fuentes/CDN.
+* **Mobile-first:** CSS escala hacia *breakpoints* mayores.
+* **Rendimiento:** *debounce* de búsqueda (300 ms) y render en **chunks** mediante `requestAnimationFrame`.
+* **Estabilidad visual:** `aspect-ratio` + `width/height` reduce **CLS**.
+* **Sin dependencias**: vanilla JS para mantener simple el flujo.
 
-    (Pendiente) metas SEO y meta theme-color.
+---
 
-🔎 SEO básico
+## 🛠️ Mantenimiento rápido
 
-En <head>:
+* **Cache bust** tras cambios en CSS/JS: actualiza `?v=YYYYMMDD`.
+* Revisa rutas relativas `./assets/...` para que Pages resuelva bien.
+* Si cambias IDs/clases en HTML, alinea los selectores en `main.js` y `style.css`.
 
-<meta name="description" content="Blog Interactivo: aprendizaje en público sobre desarrollo web.">
-<meta property="og:title" content="Blog Interactivo — Aprendizaje en público">
-<meta property="og:description" content="Mi viaje como desarrollador: proyectos, notas y tutoriales.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://<usuario>.github.io/<repo>/">
-<meta property="og:image" content="https://<usuario>.github.io/<repo>/assets/img/og-cover.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://<usuario>.github.io/<repo>/">
+---
 
-🛠️ Flujo de trabajo con Git
+## 🧭 Roadmap corto
 
-Ramas
+* [ ] Página de **404** (si no está).
+* [ ] Página de **Sobre mí** y **Contacto** completas.
+* [ ] Filtros por **categoría** (opcional).
+* [ ] Minificado opcional de `main.js` para silenciar avisos de “minify js (~2 KiB)”.
+* [ ] Tests manuales de accesibilidad (navegación por teclado, lector NVDA/VoiceOver).
 
-    main: estable.
+---
 
-    feat/*: nuevas funcionalidades.
+## 📦 Licencia
 
-    fix/*: correcciones.
+MIT — Úsalo y modifícalo libremente. Créditos apreciados 😊
 
-    chore/*: tareas de mantenimiento.
+---
 
-Convenciones de commit (Conventional Commits):
+## 👤 Autor
 
-feat: nueva funcionalidad
-fix: corrección de bug
-refactor: cambio interno sin nuevas features
-style: formato (espacios, comas, etc.)
-docs: documentación
-chore: tooling, tareas menores
+**Juan Kaiser** — Aprendizaje en público.
+Feedback y mejoras son bienvenidos mediante *issues* o PRs.
 
-Ejemplo:
-
-git switch -c feat/sidebar-layout-polish
-git add assets/css/style.css assets/js/main.js index.html
-git commit -m "fix(layout): sidebar estable en desktop y stretch del grid de posts"
-git push -u origin feat/sidebar-layout-polish
-
-🌐 Deploy en GitHub Pages
-
-    En GitHub → Settings → Pages.
-
-    Source: Deploy from a branch
-    Branch: main → Folder: /root → Save.
-
-    Espera la acción y abre https://<usuario>.github.io/<repo>/.
-
-    Si usas rutas relativas, no necesitas configuración extra.
-
-🧭 Roadmap
-
-Página de post individual con MD/HTML parseado.
-
-Filtros por categoría/etiqueta (combinables con búsqueda).
-
-Paginación real por querystring (?page=2&search=...).
-
-Mejoras Lighthouse (imágenes + metas).
-
-Tests ligeros (DOM + utilidades).
-
-    Automatizar deploy con GitHub Actions.
-
-❓ Troubleshooting rápido
-
-    Sidebar se baja / hueco raro en desktop: verifica que el grid del listado (clase .posts__grid) no tenga max-width ni margin: 0 auto en desktop; debe ocupar todo el ancho de su columna. En el style.css de esta versión ya está resuelto (layout ≥ 900px).
-
-    Tema no persiste: borra localStorage y recarga; el atributo data-theme debe setearse apenas carga el HTML.
-
-    Búsqueda vacía: confirma que posts.json se pueda leer (ruta correcta y sin CORS si sirves desde file://).
-
-📄 Licencia
-
-MIT © 2025 Juan Kaiser
