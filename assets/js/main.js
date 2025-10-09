@@ -191,7 +191,7 @@ const renderCard = (post) => {
       </header>
       <p class="card__excerpt">${post.summary}</p>
       <p class="card__actions">
-        ${cat} <a class="btn btn--link" href="${post.link}" aria-label="Leer más: ${post.title}">Leer más →</a>
+        ${cat} <a class="btn btn--link" href="${post.link}">Leer más →</a>
       </p>
     </article>
   `;
@@ -451,66 +451,3 @@ window.addEventListener('load', async () => {
   initLazyLoading();
 });
 
-/* ================================================
- * A11Y + PERF (versión refinada, sin monkey-patch)
- * - Live region única (#results-counter)
- * - aria-busy en <section class="posts">
- * - Counter con MutationObserver throttle (rAF)
- * ================================================ */
-(() => {
-  'use strict';
-
-  // 👉 Eliminado el override global de addEventListener (causaba long tasks)
-
-  const postsSection   = document.querySelector('.posts');                  // <section class="posts">
-  const grid           = document.querySelector('.posts-grid');             // contenedor de tarjetas
-  const resultsCounter = document.getElementById('results-counter');        // <p role="status" aria-live="polite">
-
-  // Si expusiste todos los posts (lo hace tu loader), úsalo para el total
-  const TOTAL = Array.isArray(window.__ALL_POSTS__) ? window.__ALL_POSTS__.length : null;
-
-  function setBusy(isBusy) {
-    if (postsSection) postsSection.setAttribute('aria-busy', String(!!isBusy));
-  }
-
-  function countVisible() {
-    if (!grid) return 0;
-    // detecta tus tarjetas
-    return grid.querySelectorAll('.card, .post-card, [data-card="post"]').length;
-  }
-
-  function updateCounter() {
-    if (!resultsCounter) return;
-    const visible = countVisible();
-    const total = (TOTAL ?? visible);
-    resultsCounter.textContent = `Mostrando ${visible} de ${total} publicaciones`;
-  }
-
-  // Estado inicial: “ocupado” si el contador aún dice “Cargando…”
-  if (postsSection && resultsCounter) {
-    if (!resultsCounter.textContent || /cargando/i.test(resultsCounter.textContent)) {
-      setBusy(true);
-    }
-  }
-
-  // Throttle del observer con requestAnimationFrame (evita ráfagas)
-  if (grid) {
-    let scheduled = false;
-    const mo = new MutationObserver(() => {
-      if (scheduled) return;
-      scheduled = true;
-      requestAnimationFrame(() => {
-        scheduled = false;
-        setBusy(false);
-        updateCounter();
-      });
-    });
-    mo.observe(grid, { childList: true });  // no usamos subtree para reducir ruido
-
-    // Primer recuento por si ya hay tarjetas
-    updateCounter();
-  }
-
-  // Nota: si tienes listeners a scroll/touch propios, márcalos como { passive:true } en su lugar,
-  // pero NO aplicamos overrides globales.
-})();
