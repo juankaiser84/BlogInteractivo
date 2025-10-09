@@ -450,3 +450,82 @@ window.addEventListener('load', async () => {
   buildSidebar();
   initLazyLoading();
 });
+
+/* ================================================
+ * A11Y + PERF (append-only, seguro)
+ * - Live region única (#results-counter)
+ * - aria-busy en <section class="posts">
+ * - Counter dinámico con MutationObserver
+ * - Listeners pasivos por defecto en scroll/touch/wheel
+ * ================================================ */
+(() => {
+  'use strict';
+
+  /* 1) Default passive listeners para eventos de scroll/touch/wheel */
+  (function setDefaultPassive() {
+    let supportsPassive = false;
+    try {
+      const opts = Object.defineProperty({}, 'passive', { get() { supportsPassive = true; } });
+      window.addEventListener('test-passive', null, opts);
+      window.removeEventListener('test-passive', null, opts);
+    } catch (_) {}
+    if (!supportsPassive) return;
+
+    const orig = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+      // Si no se pasa options, ponemos passive:true en estos eventos
+      if ((type === 'scroll' || type === 'touchstart' || type === 'touchmove' || type === 'wheel') &&
+          (options === undefined || options === false)) {
+        options = { passive: true };
+      }
+      return orig.call(this, type, listener, options);
+    };
+  })();
+
+  /* 2) Live region y busy state */
+  const postsSection   = document.querySelector('.posts');                  // <section class="posts">
+  const grid           = document.querySelector('.posts-grid');             // contenedor de tarjetas
+  const resultsCounter = document.getElementById('results-counter');        // <p role="status" aria-live="polite">
+
+  // total de publicaciones (si expusiste todos los posts)
+  const TOTAL = Array.isArray(window.__ALL_POSTS__) ? window.__ALL_POSTS__.length : null;
+
+  function setBusy(isBusy) {
+    if (postsSection) postsSection.setAttribute('aria-busy', String(!!isBusy));
+  }
+
+  function countVisible() {
+    if (!grid) return 0;
+    // intenta detectar tus clases de tarjeta
+    return grid.querySelectorAll('.card, .post-card, [data-card="post"]').length;
+  }
+
+  function updateCounter() {
+    if (!resultsCounter) return;
+    const visible = countVisible();
+    const total = (TOTAL ?? visible);
+    resultsCounter.textContent = `Mostrando ${visible} de ${total} publicaciones`;
+  }
+
+  // Al cargar la página: mostramos "cargando…" y luego actualizamos
+  if (postsSection && resultsCounter) {
+    if (!resultsCounter.textContent || /cargando/i.test(resultsCounter.textContent)) {
+      setBusy(true);
+    }
+  }
+
+  // Observa cambios en el grid (búsqueda, paginación, carga inicial…)
+  if (grid) {
+    const mo = new MutationObserver(() => {
+      // Cuando cambie el DOM del grid, damos por terminada la operación
+      setBusy(false);
+      updateCounter();
+    });
+    mo.observe(grid, { childList: true });
+    // Primer recuento por si ya hay tarjetas
+    updateCounter();
+  }
+
+  // Exponer helper opcional por si tu código quiere anunciar manualmente
+  window.__updateResultsCounter__ = updateCounter;
+})();
