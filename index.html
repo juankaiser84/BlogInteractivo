@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
   <!-- ==========================
        META BÁSICOS (SEO + MOBILE)
@@ -10,18 +10,17 @@
   <meta name="description" content="Blog personal de estilo de vida digital. Documentación honesta de mi viaje como desarrollador: HTML, CSS, JavaScript, rendimiento, accesibilidad y buenas prácticas." />
   <meta name="author" content="Juan Kaiser" />
 
-  <!-- Canonical: URL pública correcta en GitHub Pages -->
+  <!-- Canonical -->
   <link rel="canonical" href="https://juankaiser84.github.io/BlogInteractivo/" />
 
-  <!-- Open Graph para compartir en redes -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Blog Interactivo" />
   <meta property="og:description" content="Aprendizaje en público: desarrollo web, rendimiento, accesibilidad y buenas prácticas." />
-  <!-- Usa una imagen que exista en tu repo; cámbiala cuando tengas un og.png dedicado -->
   <meta property="og:image" content="./assets/img/lhdesktop.jpg" />
   <meta property="og:url" content="https://juankaiser84.github.io/BlogInteractivo/" />
 
-  <!-- Twitter Cards básico -->
+  <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Blog Interactivo" />
   <meta name="twitter:description" content="Aprendizaje en público de desarrollo web." />
@@ -33,15 +32,65 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon.png?v=5">
 
+  <!-- ============================================================
+       1) Script ultracorto ANTES del CSS para evitar FOUC/CLS de tema
+       Lee localStorage y fija data-theme en <html> antes del primer paint
+  ============================================================ -->
+  <script>
+    /** Evita "flash" de tema y pequeños saltos de layout por recálculo */
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme-preference');
+        if (saved === 'dark' || saved === 'light') {
+          document.documentElement.setAttribute('data-theme', saved);
+        } else {
+          // Respeto al sistema si no hay preferencia guardada
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        }
+      } catch (e) {
+        /* Si falla localStorage, no rompas el render */
+      }
+    })();
+  </script>
+
+  <!-- ==========================
+       2) PRELOADS (rendimiento)
+       - CSS crítico
+       - (Opcional) datos iniciales si renderizas primeros posts al cargar
+  =========================== -->
+  <link rel="preload" href="./assets/css/style.css?v=1" as="style">
+  <!-- Si tu JSON inicial está en ./assets/data/posts.json, puedes “calentar” la conexión -->
+  <link rel="preload" href="./assets/data/posts.json" as="fetch" crossorigin="anonymous">
 
   <!-- ==========================
        CSS PRINCIPAL (BEM / mobile-first)
   =========================== -->
-  <link rel="preload" href="./assets/css/style.css?v=1" as="style">
   <link rel="stylesheet" href="./assets/css/style.css?v=1">
+
+  <!-- ============================================================
+       3) CSS crítico mínimo inline para estabilidad (anti-CLS)
+       Reserva espacio de las cards antes de que llegue el CSS principal.
+       * No duplica estilos, solo asegura alto mínimo de los skeletons.
+  ============================================================ -->
+  <style>
+    /* Oculta el enlace de salto hasta foco (A11y) */
+    .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+    .skip-link:focus { position: static; width: auto; height: auto; padding: .5rem 1rem; }
+
+    /* Reserva de espacio para skeletons/cards: evita saltos de texto al cargar imágenes */
+    .card--skeleton { min-height: 220px; border-radius: 12px; }
+    /* Grilla mínima para que el layout no “colapse” antes del CSS principal */
+    .posts__grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+    @media (min-width: 600px) { .posts__grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 900px) { .posts__grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    /* Reserva del área de acciones para que el botón no “salte” cuando se monta JS */
+    .posts__actions { min-height: 48px; display: flex; gap: .5rem; align-items: center; }
+  </style>
 </head>
 <body>
-  <!-- Enlace de salto para accesibilidad (ir directo al contenido) -->
+  <!-- Enlace de salto para accesibilidad -->
   <a class="skip-link" href="#contenido" tabindex="0">Saltar al contenido</a>
 
   <!-- ==========================
@@ -105,40 +154,53 @@
           <p id="searchHelp" class="visually-hidden">Los resultados se actualizan en tiempo real.</p>
         </form>
 
-        <!-- (Futuro) Filtros por categoría; por ahora el contenedor queda listo -->
+        <!-- (Futuro) Filtros por categoría -->
         <div class="filters" aria-label="Filtrar por categoría">
-          <!-- Los botones de categorías se inyectarán desde main.js cuando implementemos el módulo -->
+          <!-- Se inyectarán desde main.js cuando implementemos el módulo -->
         </div>
       </div>
     </section>
 
-    <!-- Sección: listados (render dinámico desde posts.json o API) -->
+  <!-- Sección: listados (render dinámico desde posts.json o API) -->
     <section class="posts" aria-live="polite" aria-busy="true">
       <div class="container">
-        <!-- Skeleton de carga para estabilidad visual; se reemplaza con artículos reales desde JS -->
-        <div class="posts__grid" id="posts-container">
-          <article class="card card--skeleton" aria-hidden="true"></article>
-          <article class="card card--skeleton" aria-hidden="true"></article>
-          <article class="card card--skeleton" aria-hidden="true"></article>
-          <article class="card card--skeleton" aria-hidden="true"></article>
-        </div>
+        <!-- Layout con sidebar (1 columna en móvil, 2 en desktop) -->
+        <div class="layout layout--with-sidebar">
+  <div class="layout__main">
+    <!-- posts grid + contador + botones + sentinel + empty -->
+    <div class="posts__grid" id="posts-container" aria-describedby="results-counter">
+      <article class="card card--skeleton" aria-hidden="true"></article>
+      <article class="card card--skeleton" aria-hidden="true"></article>
+      <article class="card card--skeleton" aria-hidden="true"></article>
+      <article class="card card--skeleton" aria-hidden="true"></article>
+    </div>
+    <p id="results-counter" class="posts__counter" aria-live="polite">Cargando publicaciones…</p>
+    <div class="posts__actions">
+      <button id="btn-load-more" class="btn" type="button">Cargar más</button>
+      <button id="btn-load-less" class="btn btn--secondary" type="button">Cargar menos</button>
+    </div>
+    <div id="load-sentinel" class="sentinel" aria-hidden="true"></div>
+    <div id="empty-state" class="empty" hidden>
+      <p class="empty__text">No encontramos resultados…</p>
+      <button class="btn btn--secondary" type="button" id="clear-filters-btn">Limpiar filtros</button>
+    </div>
+  </div>
 
-        <!-- Contador de resultados accesible -->
-        <p id="results-counter" class="posts__counter" aria-live="polite">Cargando publicaciones…</p>
-
-        <!-- Controles de paginación progresiva -->
-        <div class="posts__actions">
-          <button id="btn-load-more" class="btn" type="button">Cargar más</button>
-          <button id="btn-load-less" class="btn btn--secondary" type="button">Cargar menos</button>
-        </div>
-
-        <!-- Estado "sin resultados" (oculto por defecto; lo maneja JS) -->
-        <div id="empty-state" class="empty" hidden>
-          <p class="empty__text">No encontramos resultados para tu búsqueda / filtros.</p>
-          <button class="btn btn--secondary" type="button" id="clear-filters-btn">Limpiar filtros</button>
-        </div>
-      </div>
+  <aside class="layout__sidebar sidebar" aria-label="Barra lateral">
+    <section class="sidebar__block" aria-labelledby="sb-recent-title">
+      <h2 id="sb-recent-title" class="sidebar__title">Recientes</h2>
+      <ul id="sidebar-recent" class="sidebar__list"></ul>
     </section>
+    <section class="sidebar__block" aria-labelledby="sb-cats-title">
+      <h2 id="sb-cats-title" class="sidebar__title">Categorías</h2>
+      <ul id="sidebar-cats" class="sidebar__list"></ul>
+    </section>
+  </aside>
+</div>
+        </div>
+        
+      </section>
+
   </main>
 
   <!-- ==========================
@@ -166,6 +228,7 @@
 
   <!-- ==========================
        JS PRINCIPAL
+       (Después vamos a dividir en módulos para bajar TBT)
   =========================== -->
   <script src="./assets/js/main.js?v=1" defer></script>
 </body>
