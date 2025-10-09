@@ -36,6 +36,16 @@ a:focus, button:focus, input:focus{outline:2px solid var(--color-primary); outli
 .container{width:100%; max-width:1200px; margin:0 auto; padding:0 var(--spacing-lg)}
 .overflow-hidden{overflow:hidden}
 
+/* Foco accesible solo para teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: .35rem;
+}
+
 /* Skip link */
 .skip-link{
   position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;

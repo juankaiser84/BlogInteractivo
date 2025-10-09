@@ -30,10 +30,15 @@
   <!-- Color del tema en navegadores móviles -->
   <meta name="theme-color" content="#0f172a" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon.png?v=5">
+
+
   <!-- ==========================
        CSS PRINCIPAL (BEM / mobile-first)
   =========================== -->
-  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="preload" href="./assets/css/style.css" as="style">
+  <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
   <!-- Enlace de salto para accesibilidad (ir directo al contenido) -->
@@ -71,7 +76,7 @@
       <!-- Navegación principal -->
       <nav id="mainNav" class="nav" aria-label="Navegación principal">
         <ul class="nav__list">
-          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+          <li class="nav__item"><a class="nav__link" href="./" aria-current="page">Inicio</a></li>
           <li class="nav__item"><a class="nav__link" href="./about.html">Sobre mí</a></li>
           <li class="nav__item"><a class="nav__link" href="./contact.html">Contacto</a></li>
         </ul>
