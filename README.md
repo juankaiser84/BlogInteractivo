@@ -30,30 +30,6 @@ Bitácora personal de mi viaje como desarrollador. Blog estático con posts din�
 
 ---
 
-## 🚀 Empezar
-
-### 1) Clonar
-
-```bash
-git clone https://github.com/<usuario>/<repo>.git
-cd <repo>
-
-2) Servir localmente (elige una)
-
-    VSCode + Live Server (clic derecho → Open with Live Server).
-
-    Python:
-
-# Python 3
-python -m http.server 5500
-# o
-python -m http.server
-
-Node (http-server):
-
-    npx http-server -p 5500
-
-Abre http://127.0.0.1:5500 (o el puerto que uses).
 📁 Estructura del proyecto
 
 .
