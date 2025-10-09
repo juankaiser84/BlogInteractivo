@@ -1,58 +1,147 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre mí - Blog Interactivo</title>
-  <meta name="description" content="Página sobre mí del Blog Interactivo. Conoce quién está detrás de este proyecto.">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sobre mí | Blog Interactivo</title>
+  <meta name="description" content="Quién soy, qué estoy aprendiendo y cómo construyo este Blog Interactivo aplicando buenas prácticas desde el inicio." />
+  <meta name="author" content="Juan Kaiser" />
+  <link rel="canonical" href="https://juankaiser84.github.io/BlogInteractivo/about.html" />
+
+  <!-- OG / Twitter -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="Sobre mí — Blog Interactivo" />
+  <meta property="og:description" content="Desarrollador en formación. Aprendizaje en público y buenas prácticas desde el día 1." />
+  <meta property="og:image" content="./assets/img/lhdesktop.jpg" />
+  <meta property="og:url" content="https://juankaiser84.github.io/BlogInteractivo/about.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
-  <!-- ================= HEADER ================= -->
-  <header>
-    <div class="logo">
-    <h1>Blog Interactivo</h1>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="./" aria-label="Ir a la página de inicio">
+        <span class="site-header__logo" aria-hidden="true">🧩</span>
+        <span class="site-header__title">Blog Interactivo</span>
+      </a>
+
+      <button id="themeToggle" class="btn btn--icon" type="button" aria-pressed="false" aria-label="Cambiar tema">🌙</button>
+      <button id="menuToggle" class="btn btn--icon site-header__menu-btn" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú">☰</button>
+
+      <nav id="mainNav" class="nav" aria-label="Navegación principal">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+          <li class="nav__item"><a class="nav__link" href="./about.html" aria-current="page">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html">Contacto</a></li>
+        </ul>
+      </nav>
     </div>
-
-    <!-- Botón hamburguesa (solo visible en móviles) -->
-    <button class="nav-toggle" aria-label="Abrir menú">
-        ☰
-    </button>
-    <nav aria-label="Menú principal">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="about.html" aria-current="page">Sobre mí</a></li>
-        <li><a href="contact.html">Contacto</a></li>
-      </ul>
-    </nav>
-    
-    <!-- Botón toggle de tema -->
-    <button class="theme-toggle" aria-label="Cambiar tema">
-    <span class="icon"></span>
-    </button>
-
   </header>
 
-  <!-- ================= CONTENIDO PRINCIPAL ================= -->
-  <main>
-    <section aria-labelledby="titulo-about">
-      <h2 id="titulo-about">Sobre mí</h2>
-      <p>
-        ¡Hola! Soy el creador de este blog. Aquí compartiré mi viaje como desarrollador web, 
-        mis aprendizajes en programación y algunas reflexiones personales.
+  <main id="contenido" class="site-main" role="main">
+    <!-- HERO -->
+    <section class="container" style="max-width:920px; margin:2rem auto 1rem; text-align:center;">
+      <h1 style="margin:0 0 .25rem 0;">Hola, soy Juan 👋</h1>
+      <p style="opacity:.85; margin:0;">
+        Estudiante de desarrollo web. Construyo este blog para documentar mi viaje y
+        practicar <strong>HTML5</strong>, <strong>CSS3 (BEM + variables)</strong> y <strong>JavaScript ES6+</strong>
+        con enfoque en accesibilidad, rendimiento y <em>aprendizaje en público</em>.
       </p>
-      <p>
-        Me interesa el desarrollo web moderno (HTML, CSS, JavaScript), la productividad y 
-        documentar mi proceso de aprendizaje para ayudar a otros en el camino.
+    </section>
+
+    <!-- TARJETA PERFIL -->
+    <section class="container" style="max-width:920px; margin:1rem auto 2rem;">
+      <article class="card">
+        <header class="card__header">
+          <h2 class="card__title" style="margin:0;">¿Qué encontrarás en este blog?</h2>
+          <p class="card__meta" aria-hidden="true">Roadmap · buenas prácticas</p>
+        </header>
+        <div class="card__excerpt">
+          <ul style="margin:0; padding-left:1.25rem;">
+            <li>Notas cortas y posts didácticos sobre lo que voy aprendiendo.</li>
+            <li>Buenas prácticas desde el inicio (semántica, BEM, accesibilidad, rendimiento).</li>
+            <li>Pequeñas mejoras iterativas: primero estático, luego backend con <strong>PHP/MySQL</strong>.</li>
+          </ul>
+        </div>
+        <footer class="card__actions">
+          <a class="btn btn--link" href="./index.html#posts">Ver últimos posts →</a>
+        </footer>
+      </article>
+    </section>
+
+    <!-- HABILIDADES / STACK -->
+    <section class="container" style="max-width:920px; margin:0 auto 2rem;">
+      <h2 style="text-align:center; margin-bottom:1rem;">Stack actual</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem;">
+        <article class="card">
+          <h3 class="card__title" style="margin:0 0 .5rem;">Frontend</h3>
+          <ul style="margin:0; padding-left:1.25rem;">
+            <li>HTML5 semántico, meta/SEO básicos.</li>
+            <li>CSS3 con BEM, variables, mobile-first.</li>
+            <li>JS ES6+ (fetch, localStorage, accesibilidad).</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title" style="margin:0 0 .5rem;">Herramientas</h3>
+          <ul style="margin:0; padding-left:1.25rem;">
+            <li>VSCode, Live Server.</li>
+            <li>Git & GitHub (Pages para deploy).</li>
+            <li>Formspree (contacto), PageSpeed/DevTools.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 class="card__title" style="margin:0 0 .5rem;">Próximos pasos</h3>
+          <ul style="margin:0; padding-left:1.25rem;">
+            <li>Backend con PHP + MySQL (CRUD básico).</li>
+            <li>Admin sencillo para posts.</li>
+            <li>Mejoras de accesibilidad y rendimiento 90+.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- LÍNEA DE TIEMPO SIMPLE -->
+    <section class="container" style="max-width:920px; margin:0 auto 2rem;">
+      <h2 style="text-align:center; margin-bottom:1rem;">Ruta de aprendizaje</h2>
+      <ol style="margin:0; padding-left:1.25rem;">
+        <li><strong>Fase 1:</strong> HTML semántico (estructura, navegación, 404).</li>
+        <li><strong>Fase 2:</strong> CSS (BEM, variables, responsive, tema oscuro).</li>
+        <li><strong>Fase 3:</strong> JS básico (hamburguesa, toggle, localStorage).</li>
+        <li><strong>Fase 4:</strong> JS avanzado (JSON dinámico, búsqueda, paginación).</li>
+        <li><strong>Fase 5:</strong> Testing & Deploy (GitHub Pages) + documentación.</li>
+      </ol>
+    </section>
+
+    <!-- CTA -->
+    <section class="container" style="max-width:920px; margin:0 auto 2.5rem; text-align:center;">
+      <p style="opacity:.85; margin:.5rem 0 1rem;">
+        ¿Te gustaría sugerir un tema o encontrar un bug?
       </p>
+      <div style="display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap;">
+        <a class="btn" href="./contact.html" style="background:var(--color-primary); color:#0b1220;">Escríbeme</a>
+        <a class="btn btn--secondary" href="https://github.com/juankaiser84/BlogInteractivo" target="_blank" rel="noopener">Ver repositorio</a>
+      </div>
     </section>
   </main>
 
-  <!-- ================= FOOTER ================= -->
-  <footer>
-    <p>&copy; 2025 Blog Interactivo</p>
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <p>&copy; <span id="year"></span> Juan Kaiser — Aprendizaje en público.</p>
+      <nav class="nav nav--footer" aria-label="Enlaces secundarios">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./about.html" aria-current="page">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html">Contacto</a></li>
+          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+        </ul>
+      </nav>
+    </div>
   </footer>
-  <script src="assets/js/main.js" defer></script>
 
+  <script src="./assets/js/main.js" defer></script>
 </body>
 </html>

@@ -1,441 +1,207 @@
 /* =========================================
-   RESET BÁSICO
-   ========================================= */
-/* Elimina márgenes/paddings por defecto y asegura box-sizing consistente */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+   RESET + BASE
+========================================= */
+:root{
+  /* Paleta */
+  --color-bg: #ffffff;
+  --color-bg-dark: #0f172a;
+  --color-bg-light: #111827;
+  --color-text-dark: #0f172a;
+  --color-text-light: #e5e7eb;
+  --color-primary: #00d4ff;   /* cian */
+  --color-secondary: #7c3aed; /* morado */
+  --color-accent: #ff2b89;    /* rosa */
+  /* Spacing & misc */
+  --spacing-xs:.25rem; --spacing-sm:.5rem; --spacing-md:1rem; --spacing-lg:1.5rem; --spacing-xl:2rem;
+  --border-radius:12px;
+  --shadow-1:0 4px 6px rgba(0,0,0,.2);
+  --shadow-2:0 6px 12px rgba(0,0,0,.3);
+  --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  --font-title: var(--font-sans);
 }
 
-/* Quita estilos predeterminados de listas y enlaces */
-ul {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-  color: inherit; /* El color se manejará con variables */
-}
-
-/* Imágenes responsive */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* =========================================
-   VARIABLES DE DISEÑO
-   ========================================= */
-:root {
-  /* Colores base */
-  --color-bg-light: #ffffff;
-  --color-bg-dark: #121418;
-  --color-text-light: #f5f5f5;
-  --color-text-dark: #0b0b0b;
-
-  /* Paleta de acento (inspirada en Synthwave 🎨) */
-  --color-primary: #00d1ff;
-  --color-secondary: #7a2cff;
-  --color-accent: #ff2e7a;
-
-  /* Tipografía */
-  --font-main: "Inter", Arial, sans-serif;
-  --font-title: "Exo 2", "Segoe UI", sans-serif;
-
-  /* Tamaños */
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 2rem;
-  --border-radius: 0.5rem;
-}
-
-/* =========================================
-   ESTILOS GENERALES
-   ========================================= */
-body {
-  font-family: var(--font-main);
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: var(--color-bg-light);
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: var(--font-sans);
+  line-height:1.5;
   color: var(--color-text-dark);
-  padding: var(--spacing-md);
+  background: var(--color-bg);
 }
+img{max-width:100%; display:block}
+a{color:inherit; text-decoration:none}
+a:focus, button:focus, input:focus{outline:2px solid var(--color-primary); outline-offset:2px}
+.visually-hidden{position:absolute!important; width:1px;height:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+.container{width:100%; max-width:1200px; margin:0 auto; padding:0 var(--spacing-lg)}
+.overflow-hidden{overflow:hidden}
 
-/* =========================================
-   HEADER Y NAVEGACIÓN (Versión Desktop)
-   ========================================= */
-header {
-  display: flex;
-  justify-content: space-between; /* Logo a la izq, menú a la der */
-  align-items: center;
-  padding: var(--spacing-md) var(--spacing-lg);
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-light);
-  position: sticky; /* Se queda fijo arriba */
-  top: 0;
-  z-index: 1000; /* Encima de otros elementos */
-}
-
-/* Logo o título del blog */
-header .logo h1 {
-  font-family: var(--font-title);
-  font-size: 1.5rem;
-  color: var(--color-primary);
-}
-
-/* Navegación */
-nav ul {
-  display: flex;
-  gap: var(--spacing-md); /* Espacio entre enlaces */
-}
-
-nav a {
-  color: var(--color-text-light);
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-nav a:hover,
-nav a[aria-current="page"] {
-  color: var(--color-accent);
-}
-
-/* =========================================
-   ESTILOS PARA POSTS
-   ========================================= */
-main {
-  max-width: 900px; /* Ancho legible en pantallas grandes */
-  margin: var(--spacing-lg) auto; /* Centrado horizontal */
-  padding: 0 var(--spacing-md);
-}
-
-section h2 {
-  margin-bottom: var(--spacing-md);
-  font-family: var(--font-title);
-  color: var(--color-secondary);
-}
-
-article {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-light);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-md);
-  margin-bottom: var(--spacing-lg);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Animación sutil al pasar el mouse */
-article:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
-}
-
-/* Título de cada post */
-article h3 {
-  font-size: 1.2rem;
-  color: var(--color-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-/* Fecha y autor */
-article header p {
-  font-size: 0.9rem;
-  color: var(--color-text-light);
-  opacity: 0.7;
-  text-align: right;
-  margin-bottom: var(--spacing-sm);
-}
-
-/* Resumen */
-article p {
-  margin-bottom: var(--spacing-md);
-}
-
-/* Enlace Leer más */
-article footer a {
-  color: var(--color-accent);
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-article footer a:hover {
-  color: var(--color-primary);
-}
-
-/* =========================================
-   MENÚ HAMBURGUESA (Responsive)
-   ========================================= */
-
-/* Botón hamburguesa */
-.nav-toggle {
-  display: none; /* Oculto en desktop */
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: var(--color-text-light);
-  cursor: pointer;
-}
-
-/* Móviles: mostrar botón y ocultar menú */
-@media (max-width: 768px) {
-  nav ul {
-    display: none; /* Oculto por defecto */
-    flex-direction: column;
-    background-color: var(--color-bg-dark);
-    position: absolute;
-    top: 60px;
-    right: 0;
-    width: 200px;
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  }
-
-  nav ul.active {
-    display: flex; /* Mostrar cuando esté activo */
-  }
-
-  .nav-toggle {
-    display: block; /* Mostrar el botón en móviles */
-  }
-}
-/* =========================================
-   TOGGLE TEMA CLARO/OSCURO
-   ========================================= */
-.theme-toggle {
-  margin-left: var(--spacing-md);
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-/* Ícono dentro del botón */
-.theme-toggle .icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  position: relative;
-  transition: all 0.4s ease;
-}
-
-/* Rayos de sol */
-.theme-toggle .icon::after {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid var(--color-primary);
-  opacity: 0.6;
-  transition: all 0.4s ease;
-}
-
-/* Estado en modo oscuro (luna) */
-body.dark-theme .theme-toggle .icon {
-  background-color: var(--color-accent);
-  box-shadow: -6px -6px 0 0 var(--color-bg-dark);
-}
-
-body.dark-theme .theme-toggle .icon::after {
-  opacity: 0; /* Quita rayos en modo oscuro */
-}
-
-/* =========================================
-   FOOTER
-   ========================================= */
-footer {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-light);
-  text-align: center;
-  padding: var(--spacing-md);
-  margin-top: var(--spacing-lg);
-  font-size: 0.9rem;
-}
-
-footer p {
-  margin-bottom: var(--spacing-sm);
-}
-
-footer a {
-  color: var(--color-accent);
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-footer a:hover {
-  color: var(--color-primary);
-}
-
-/* =========================================
-   MODO OSCURO
-   ========================================= */
-body.dark-theme {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-light);
-}
-
-/* Header en modo oscuro */
-body.dark-theme header {
-  background-color: var(--color-bg-light);
-  color: var(--color-text-dark);
-}
-
-body.dark-theme header .logo h1 {
-  color: var(--color-accent);
-}
-
-body.dark-theme nav a {
-  color: var(--color-text-dark);
-}
-
-body.dark-theme nav a:hover,
-body.dark-theme nav a[aria-current="page"] {
-  color: var(--color-primary);
-}
-
-/* Posts en modo oscuro */
-body.dark-theme article {
-  background-color: var(--color-bg-light);
-  color: var(--color-text-dark);
-}
-
-/* Footer en modo oscuro */
-body.dark-theme footer {
-  background-color: var(--color-bg-light);
-  color: var(--color-text-dark);
-}
-
-/* Transición global para cambios de tema */
-body,
-header,
-footer,
-article,
-nav,
-.theme-toggle .icon {
-  transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
-}
-/* =========================================
-   BARRA DE BÚSQUEDA
-   ========================================= */
-.search-bar {
-  margin-bottom: var(--spacing-md);
-  text-align: center;
-}
-
-.search-bar input {
-  width: 80%;
-  max-width: 400px;
-  padding: var(--spacing-sm);
-  border: 2px solid var(--color-primary);
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-}
-/* =========================================
-   BOTÓN CARGAR MÁS
-   ========================================= */
-#load-more {
-  display: block;
-  margin: var(--spacing-lg) auto;
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background-color: var(--color-primary);
-  color: var(--color-bg-dark);
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#load-more:hover {
-  background-color: var(--color-accent);
-  color: var(--color-text-light);
-}
-#load-less {
-  display: block;
-  margin: var(--spacing-md) auto;
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background-color: var(--color-secondary);
-  color: var(--color-text-light);
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#load-less:hover {
-  background-color: var(--color-accent);
-}
-
-/* === Accesibilidad: helpers === */
+/* Skip link */
 .skip-link{
   position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
 }
 .skip-link:focus{
-  left:1rem; top:1rem; width:auto; height:auto; overflow:visible;
-  background:#fff; padding:.5rem 1rem; border-radius:.5rem; z-index:1000;
+  left: var(--spacing-lg); top: var(--spacing-lg);
+  width:auto; height:auto; background:#000; color:#fff; padding:.5rem .75rem; border-radius:8px; z-index:10000;
 }
 
-/* Oculto visualmente pero accesible para lectores de pantalla */
-.visualmente-oculto{
-  position:absolute !important; width:1px; height:1px; margin:-1px; padding:0; border:0;
-  clip:rect(0 0 0 0); clip-path:inset(50%); overflow:hidden; white-space:nowrap;
+/* Botones genéricos */
+.btn{cursor:pointer; border:0; border-radius:var(--border-radius); padding:.6rem 1rem; font-weight:700}
+.btn--secondary{background: var(--color-secondary); color: #fff}
+.btn--link{color: var(--color-accent); font-weight:700}
+.btn--icon{background:transparent}
+
+/* =========================================
+   HEADER + NAV
+========================================= */
+.site-header { position: sticky; top:0; z-index:1000; background: var(--color-bg-dark); color: var(--color-text-light); }
+.site-header__inner { position:relative; min-height:64px; }
+.site-header__brand{
+  position:absolute; left: var(--spacing-lg); top:50%; transform: translateY(-50%);
+  display:inline-flex; gap:.5rem; align-items:center;
+}
+.site-header__title{ font-family: var(--font-title); font-size:1.5rem; color: var(--color-primary); }
+
+/* Toggle redondo (siempre visible) */
+#themeToggle{
+  position:absolute; right: var(--spacing-lg); top:50%; transform: translateY(-50%);
+  width:38px; height:38px; border-radius:9999px; display:grid; place-items:center;
+  border:2px solid var(--color-primary); color: var(--color-primary); background: transparent;
+  transition: transform .15s ease, background-color .2s ease, color .2s ease;
+}
+#themeToggle:hover{ transform: translateY(-50%) scale(1.05); background: rgba(255,255,255,.06); }
+
+/* Hamburguesa solo mobile */
+#menuToggle{
+  position:absolute; right: calc(var(--spacing-lg) + 48px); top:50%;
+  transform: translateY(-50%); display:inline-flex; color: var(--color-text-light);
+}
+@media (min-width:768px){ #menuToggle{ display:none } }
+
+/* Nav móvil (desplegable) */
+.nav{ display:none; }
+@media (max-width:767.98px){
+  .nav{
+    position:absolute; right: var(--spacing-lg); top:100%;
+    background: var(--color-bg-dark); color: var(--color-text-light);
+    border:1px solid rgba(255,255,255,.1); border-radius: var(--border-radius);
+    padding:.5rem .75rem; box-shadow: var(--shadow-2);
+  }
+  .nav__list{ display:grid; gap:.5rem; margin:0; padding:0; list-style:none; }
+  .nav:not(.nav--open){ display:none }
+  .nav.nav--open{ display:block }
 }
 
-/* ===== Estabilidad de layout (reduce CLS) ===== */
-.posts-skeleton{display:grid;gap:1rem;margin-top:1rem}
-.posts-skeleton .sk-card,
-[data-js="posts"] article{ /* misma altura en skeleton y tarjetas reales */
-  min-height: 180px;        /* ajusta si tus cards reales son más altas */
-  border-radius: 12px;
-  background: #121317;
-  box-shadow: 0 6px 20px rgba(0,0,0,.15);
+/* Nav desktop (centrada) */
+@media (min-width:768px){
+  .nav{
+    display:block; position:absolute; left:50%; top:50%; transform: translate(-50%, -50%);
+  }
+  .nav__list{ display:flex; gap: clamp(.75rem, 2vw, 2rem); margin:0; padding:0; list-style:none; align-items:center }
+}
+.nav__link{ color: var(--color-text-light); font-weight:700; transition: color .25s ease; }
+.nav__link:hover, .nav__link[aria-current="page"]{ color: var(--color-accent) }
+
+/* Oscuro activado por JS en <html class="theme--dark"> */
+.theme--dark #themeToggle{ border-color: var(--color-accent); color: var(--color-accent) }
+.theme--dark .nav__link:hover, .theme--dark .nav__link[aria-current="page"]{ color: var(--color-primary) }
+
+/* =========================================
+   HERO + BUSCADOR + POSTS GRID
+========================================= */
+.search .container, .posts .container{ max-width:980px; margin:0 auto; }
+.search__title{ text-align:center; margin-top: clamp(1rem, 3vw, 2rem); font-size: clamp(1.6rem, 2.6vw, 2.2rem) }
+.search__form{ display:grid; justify-items:center; gap:.5rem }
+#search-input{
+  width:min(560px, 92%); margin:0 auto; padding:.6rem .8rem;
+  border:2px solid var(--color-primary); border-radius: var(--border-radius); font-size:1rem
 }
 
-/* Skeleton shimmer simple */
-.sk-card{position:relative;overflow:hidden}
-.sk-line{height:14px;border-radius:6px;background:#1f222a;margin:10px 0}
-.sk-line.w50{width:50%}
-.sk-line.w70{width:70%}
-.sk-line.w30{width:30%}
-.sk-line.h24{height:24px;border-radius:8px}
-.sk-anim::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
-  transform:translateX(-100%);animation:sk 1.2s infinite;
+/* GRID + CARD */
+.posts__grid{ max-width:980px; margin:1rem auto 0; padding:0 var(--spacing-md) }
+.card{
+  background: var(--color-bg-dark); color: var(--color-text-light);
+  border-radius: var(--border-radius); padding: var(--spacing-md); margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-1); transition: transform .2s ease, box-shadow .2s ease;
 }
-@keyframes sk{to{transform:translateX(100%)}}
+.card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-2) }
+.card__header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom: var(--spacing-sm) }
+.card__title{ font-size:1.2rem; margin:0 }
+.card__title a{ color: var(--color-secondary) }
+.card__meta{ font-size:.9rem; opacity:.75 }
+.card__excerpt{ margin: var(--spacing-sm) 0 var(--spacing-md) }
+.card__actions .btn--link{ color: var(--color-accent) }
+.card__actions .btn--link:hover{ color: var(--color-primary) }
 
-header{min-height:60px;display:flex;align-items:center}
-
-/* Desactiva el brillo del skeleton en pantallas muy pequeñas */
-@media (max-width: 480px){
-  .sk-anim::after { content: none; }
+/* Skeleton */
+.card--skeleton{
+  height:92px; background: linear-gradient(90deg, #1f2937 25%, #111827 37%, #1f2937 63%);
+  background-size:400% 100%; animation: shimmer 1.2s infinite linear; border-radius: var(--border-radius);
 }
+@keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:0 0} }
 
-/* No pintes lo que no se ve (ahorra trabajo en móvil) */
-[data-js="posts"] article{
-  content-visibility: auto;
-  contain-intrinsic-size: 300px; /* reserva espacio aproximado */
+/* Controles + contador */
+.posts__counter{ text-align:left; color:#6b7280; margin: .5rem 0 1rem }
+.posts__actions{ display:flex; gap:.5rem; align-items:center; }
+#btn-load-more, #btn-load-less{
+  display:inline-block; padding:.6rem 1rem; border-radius: var(--border-radius);
+  font-weight:700; transition: background-color .25s ease, color .25s ease;
 }
+#btn-load-more{ background: var(--color-primary); color:#0b1220 }
+#btn-load-less{ background: var(--color-secondary); color:#fff }
+#btn-load-more:hover, #btn-load-less:hover{ background: var(--color-accent); color:#fff }
 
-/* En pantallas muy pequeñas, apagamos el brillo del skeleton */
-@media (max-width:480px){
-  .sk-anim::after{ content:none; }
+/* Empty state */
+.empty{ text-align:center; padding: var(--spacing-md) }
+.empty__text{ margin-bottom: .75rem }
+
+/* =========================================
+   PÁGINA DE POST INDIVIDUAL
+========================================= */
+.post{ max-width:980px; margin: var(--spacing-lg) auto; padding: 1.25rem 1.5rem; background: var(--color-bg-dark); color: var(--color-text-light); border-radius: var(--border-radius); box-shadow: var(--shadow-1) }
+.post__title{ margin: 0 0 .5rem 0; }
+.post__meta{ opacity:.75; margin-bottom: 1rem; text-align:right; }
+.post__content p, .post__content ul, .post__content ol{ margin-bottom: 1rem; }
+
+/* =========================================
+   FOOTER
+========================================= */
+.site-footer{
+  background: var(--color-bg-dark); color: var(--color-text-light);
+  text-align:center; padding: var(--spacing-md); margin-top: var(--spacing-xl); font-size:.9rem;
 }
+.site-footer a{ color: var(--color-accent); font-weight:700 }
+.site-footer a:hover{ color: var(--color-primary) }
+
+/* =========================================
+   TEMA OSCURO (html.theme--dark)
+========================================= */
+.theme--dark body{ background: #0b1220; color: var(--color-text-light) }
+.theme--dark .card{ background: var(--color-bg-light); color: var(--color-text-light) }
+.theme--dark .post{ background: var(--color-bg-light) }
+/* ===== Fix: que las reglas de .nav del header no afecten al footer ===== */
+.nav--footer{
+  position: static !important;
+  display: block !important;
+  left: auto; top: auto; transform: none !important;
+  background: transparent; border: 0; padding: 0; box-shadow: none;
+}
+.nav--footer .nav__list{
+  display: flex !important;
+  gap: .75rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0; padding: 0; list-style: none;
+}
+.nav--footer .nav__link{ color: var(--color-accent); font-weight: 700; }
+.nav--footer .nav__link:hover{ color: var(--color-primary); }
+
+/* Contact form UI */
+.contact-form .form-label{ display:block; font-weight:700; margin-bottom:.25rem }
+.contact-form .form-input{
+  width:100%; max-width:680px;
+  padding:.6rem .8rem; border:2px solid var(--color-primary);
+  border-radius: var(--border-radius); background: transparent; color: inherit;
+}
+.contact-form textarea.form-input{ resize: vertical }
+.contact-form .form-row{ display:grid; justify-items: start }

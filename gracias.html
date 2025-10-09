@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>¡Gracias por tu mensaje! | Blog Interactivo</title>
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://juankaiser84.github.io/BlogInteractivo/gracias.html" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="./" aria-label="Ir a la página de inicio">
+        <span class="site-header__logo" aria-hidden="true">🧩</span>
+        <span class="site-header__title">Blog Interactivo</span>
+      </a>
+      <button id="themeToggle" class="btn btn--icon" type="button" aria-pressed="false" aria-label="Cambiar tema">🌙</button>
+      <button id="menuToggle" class="btn btn--icon site-header__menu-btn" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú">☰</button>
+      <nav id="mainNav" class="nav" aria-label="Navegación principal">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+          <li class="nav__item"><a class="nav__link" href="./about.html">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="site-main" role="main" style="min-height:60vh;display:grid;place-items:center;padding:2rem 1rem;">
+    <section class="container" style="max-width:720px;text-align:center;">
+      <h1 style="font-size:clamp(1.8rem,4vw,2.4rem);margin:.5rem 0 1rem;">¡Gracias por tu mensaje!</h1>
+      <p style="opacity:.85; margin-bottom:1rem;">Recibí tu correo correctamente. Te responderé a la brevedad (máx. 48h).</p>
+      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+        <a class="btn btn--secondary" href="./">← Volver al inicio</a>
+        <a class="btn" href="./about.html" style="background:var(--color-primary);color:#0b1220;">Conocer más sobre mí</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <p>&copy; <span id="year"></span> Juan Kaiser — Aprendizaje en público.</p>
+      <nav class="nav nav--footer" aria-label="Enlaces secundarios">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="./about.html">Sobre mí</a></li>
+          <li class="nav__item"><a class="nav__link" href="./contact.html">Contacto</a></li>
+          <li class="nav__item"><a class="nav__link" href="./">Inicio</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="./assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+node_modules/
+vendor/
+.DS_Store
+Thumbs.db
+.vscode/
+assets/data/app-env.json
+*.log
