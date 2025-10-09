@@ -80,7 +80,7 @@ if (els.year) els.year.textContent = new Date().getFullYear();
     document.body.classList.toggle('overflow-hidden', next);
   };
 
-  menuBtn.addEventListener('click', toggle);
+  menuBtn.addEventListener('click', toggle, { passive: true });
 })();
 
 /* =========================================================================
@@ -188,7 +188,7 @@ const applySearch = (query) => {
 };
 
 /* =========================================================================
-   EVENTOS UI
+   EVENTOS UI (ligeros → DOMContentLoaded)
    ========================================================================= */
 const bindUI = () => {
   if (els.searchInput) {
@@ -220,13 +220,13 @@ const bindUI = () => {
    SWITCH DE FUENTE (JSON ↔ PHP)
    ========================================================================= */
 /**
- * Detecta si hay backend disponible en ./Backend/api/env.php
+ * Detecta si hay backend disponible en ./backend/api/env.php
  * y retorna la URL de datos adecuada.
  * - Live Server (sin PHP): usa ./assets/data/posts.json
- * - Localhost con PHP: si env.php responde {"APP_ENV":"php"} → usa ./Backend/api/posts.php
+ * - Localhost con PHP: si env.php responde {"APP_ENV":"php"} → usa ./backend/api/posts.php
  */
 async function getPostsEndpoint() {
-  // 1) Intentar backend (misma raíz, carpeta "Backend")
+  // 1) Intentar backend (misma raíz, carpeta "backend")
   try {
     const r = await fetchWithTimeout('./backend/api/env.php');
     if (r.ok) {
@@ -242,7 +242,7 @@ async function getPostsEndpoint() {
 }
 
 /* =========================================================================
-   CARGA DE DATOS
+   CARGA DE DATOS (pesado → window.load)
    ========================================================================= */
 /**
  * Carga posts desde la URL indicada y pinta la lista.
@@ -273,7 +273,6 @@ async function loadPosts(dataUrl) {
     STATE.filtered = STATE.all.slice();
     STATE.visibleCount = Math.min(STATE.step, STATE.filtered.length || STATE.step);
 
-    bindUI();
     render();
   } catch (err) {
     console.error('[Blog] Error cargando posts:', err);
@@ -286,9 +285,19 @@ async function loadPosts(dataUrl) {
 }
 
 /* =========================================================================
-   INICIO
+   INICIO: dividir trabajo para bajar TBT
    ========================================================================= */
-document.addEventListener('DOMContentLoaded', async () => {
+// LIGERO: listeners y pequeños toques al cargar el DOM
+document.addEventListener('DOMContentLoaded', () => {
+  bindUI();
+  // Si quieres, reservamos espacio del contador desde ya para evitar CLS
+  if (els.resultsCounter && !els.resultsCounter.textContent) {
+    els.resultsCounter.textContent = 'Cargando publicaciones…';
+  }
+});
+
+// PESADO: red/fetch/render cuando toda la página terminó de cargar
+window.addEventListener('load', async () => {
   const DATA_URL = await getPostsEndpoint();
   await loadPosts(DATA_URL);
 });

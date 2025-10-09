@@ -215,3 +215,9 @@ input:focus-visible,
 }
 .contact-form textarea.form-input{ resize: vertical }
 .contact-form .form-row{ display:grid; justify-items: start }
+
+/* Evitar “saltos” cuando cambia el contador */
+.posts__counter { min-height: 1.25rem; }
+
+/* Si muestras/ocultas estados vacíos, evita colapsar el layout */
+.empty[hidden] { display: block; visibility: hidden; height: 0; margin: 0; padding: 0; }
