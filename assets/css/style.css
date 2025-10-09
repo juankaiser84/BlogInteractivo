@@ -1,347 +1,447 @@
-/* =========================================================
-   BLOG INTERACTIVO — STYLE.CSS LIMPIO
-   - Mobile-first
-   - Sidebar a la derecha ≥900px
-   - Sin max-width “oculto” en el grid de posts
-   - Toggle centrado
-   - Anti-CLS (aspect-ratio + skeleton)
-   ========================================================= */
-
-/* --------------------- */
-/* 1) BASE + VARIABLES   */
-/* --------------------- */
+/* =========================================
+   RESET + BASE
+   (Ajustado para estabilidad visual y tema por data-theme)
+========================================= */
 :root{
-  /* Colores */
+  /* Paleta */
   --color-bg: #ffffff;
-  --color-surface: #0f172a;      /* superficies oscuras (cards/header) */
-  --color-surface-2: #111827;
-  --color-text: #0f172a;
-  --color-text-inv: #e5e7eb;
-  --color-primary: #00d4ff;      /* cian */
-  --color-secondary: #7c3aed;    /* morado */
-  --color-accent: #ff2b89;       /* rosa */
-
-  /* Dimensiones */
-  --radius: 12px;
-  --space-1: .25rem;
-  --space-2: .5rem;
-  --space-3: .75rem;
-  --space-4: 1rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-
-  /* Sombras */
-  --shadow-1: 0 4px 6px rgba(0,0,0,.18);
-  --shadow-2: 0 10px 18px rgba(0,0,0,.28);
-
-  /* Tipos */
-  --ff-sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  --color-bg-dark: #0f172a;   /* header/cards por defecto */
+  --color-bg-light: #111827;
+  --color-text-dark: #0f172a;
+  --color-text-light: #e5e7eb;
+  --color-primary: #00d4ff;   /* cian */
+  --color-secondary: #7c3aed; /* morado */
+  --color-accent: #ff2b89;    /* rosa */
+  /* Spacing & misc */
+  --spacing-xs:.25rem; --spacing-sm:.5rem; --spacing-md:1rem; --spacing-lg:1.5rem; --spacing-xl:2rem;
+  --border-radius:12px;
+  --shadow-1:0 4px 6px rgba(0,0,0,.2);
+  --shadow-2:0 6px 12px rgba(0,0,0,.3);
+  --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  --font-title: var(--font-sans);
 }
 
-*{ box-sizing: border-box }
-html,body{ height:100% }
+*{box-sizing:border-box}
+html,body{height:100%}
 body{
   margin:0;
-  font-family: var(--ff-sans);
+  font-family: var(--font-sans);
   line-height:1.5;
-  color: var(--color-text);
+  color: var(--color-text-dark);
   background: var(--color-bg);
 }
-img{ max-width:100%; display:block; height:auto }
-a{ color: inherit; text-decoration: none }
+img{max-width:100%; display:block; height:auto}
+a{color:inherit; text-decoration:none}
+a:focus, button:focus, input:focus{outline:2px solid var(--color-primary); outline-offset:2px}
+.visually-hidden{position:absolute!important; width:1px;height:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+/* Contenedores principales (↑ ancho para que quepa la sidebar en desktop) */
+.container{width:100%; max-width:1200px; margin:0 auto; padding:0 var(--spacing-lg)}
+.search .container, .posts .container{ max-width:1200px; }
+
+/* Foco accesible solo para teclado */
 :where(a,button,input,[role="button"]):focus-visible{
-  outline:2px solid var(--color-primary);
-  outline-offset:2px;
-  border-radius:.35rem;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: .35rem;
 }
 
-/* Contenedor general (desktop amplio para que quepa el aside) */
-.container{ width:100%; max-width: 1200px; margin:0 auto; padding:0 var(--space-6) }
+/* Utilidades de medios (anti-CLS) */
+.media{ position:relative; overflow:hidden; border-radius: var(--border-radius); }
+.media--16x9{ aspect-ratio: 16/9; }
+.media--1x1{ aspect-ratio: 1/1; }
+.media > img{ width:100%; height:100%; object-fit:cover; }
 
-/* Visually hidden */
-.visually-hidden{
-  position:absolute!important; width:1px; height:1px; overflow:hidden;
-  clip:rect(1px,1px,1px,1px); white-space:nowrap;
+/* Reserva tamaño para pequeños íconos si son <img> */
+.img--icon { width: 24px; height: 24px; }
+
+/* Skip link */
+.skip-link{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus{
+  left: var(--spacing-lg); top: var(--spacing-lg);
+  width:auto; height:auto; background:#000; color:#fff; padding:.5rem .75rem; border-radius:8px; z-index:10000;
 }
 
-/* --------------------- */
-/* 2) UTILIDADES UI      */
-/* --------------------- */
+/* Botones genéricos */
+.btn{cursor:pointer; border:0; border-radius:var(--border-radius); padding:.6rem 1rem; font-weight:700; line-height:1; min-height: 38px;}
+.btn--secondary{background: var(--color-secondary); color: #fff}
+.btn--link{color: var(--color-accent); font-weight:700}
+.btn--icon{background:transparent}
 
-/* Media con relación de aspecto → evita CLS si carga una imagen */
-.media{ position:relative; overflow:hidden; border-radius: var(--radius) }
-.media--16x9{ aspect-ratio: 16/9 }
-.media--1x1{  aspect-ratio: 1/1 }
-.media > img{ width:100%; height:100%; object-fit:cover }
-
-/* Botones */
-.btn{ cursor:pointer; border:0; border-radius: var(--radius); padding:.6rem 1rem; font-weight:700; line-height:1; min-height:38px }
-.btn--secondary{ background: var(--color-secondary); color:#fff }
-.btn--link{ color: var(--color-accent); font-weight:700 }
-
-/* Badge */
-.badge{
-  display:inline-block; padding:.15rem .5rem; border-radius:9999px; font-size:.8rem; font-weight:700;
-  background: rgba(124,58,237,.15); color: var(--color-secondary);
-}
-
-/* --------------------- */
-/* 3) HEADER + NAV       */
-/* --------------------- */
-.site-header{ position:sticky; top:0; z-index:1000; background: var(--color-surface); color: var(--color-text-inv) }
-.site-header__inner{ position:relative; min-height:64px }
+/* =========================================
+   HEADER + NAV
+========================================= */
+.site-header { position: sticky; top:0; z-index:1000; background: var(--color-bg-dark); color: var(--color-text-light); }
+.site-header__inner { position:relative; min-height:64px; }
 .site-header__brand{
-  position:absolute; left: var(--space-6); top:50%; transform: translateY(-50%);
+  position:absolute; left: var(--spacing-lg); top:50%; transform: translateY(-50%);
   display:inline-flex; gap:.5rem; align-items:center;
 }
-.site-header__logo{ width:24px; height:24px; display:inline-grid; place-items:center }
-.site-header__title{ font-size:1.4rem; color: var(--color-primary) }
+.site-header__logo{ width:24px; height:24px; display:inline-grid; place-items:center; } /* reserva espacio (anti-CLS) */
+.site-header__title{ font-family: var(--font-title); font-size:1.5rem; color: var(--color-primary); }
 
-/* Toggle (emoji) centrado y sin doble aro */
+/* Toggle redondo (emoji) — centrado y sin doble aro */
 #themeToggle{
-  position:absolute; right: var(--space-6); top:50%; transform: translateY(-50%);
-  width:40px; height:40px; border-radius:50%;
-  border:2px solid var(--color-primary); background:transparent; color: var(--color-primary);
-  display:flex; align-items:center; justify-content:center; line-height:1; font-size:20px;
+  position:absolute;
+  right: var(--spacing-lg);
+  top:50%;
+  transform: translateY(-50%);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:2px solid var(--color-primary);
+  background: transparent;
+  color: var(--color-primary);
+
+  display:flex;                 /* centrado perfecto del glifo */
+  align-items:center;
+  justify-content:center;
+  line-height:1;                /* evita desplazamiento vertical del emoji */
+  font-size:20px;
+
   transition: transform .15s ease, background-color .25s ease, color .25s ease, box-shadow .2s ease;
 }
-#themeToggle:hover{ transform: translateY(-50%) scale(1.05); background: rgba(255,255,255,.06) }
-#themeToggle:focus{ outline:none }
-#themeToggle:focus-visible{ box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-primary) 70%, transparent) }
+#themeToggle:hover{ transform: translateY(-50%) scale(1.05); background: rgba(255,255,255,.06); }
+/* Focus: un solo anillo externo */
+#themeToggle:focus{ outline: none; }
+#themeToggle:focus-visible{ box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-primary) 70%, transparent); }
+[data-theme="dark"] #themeToggle{ border-color: var(--color-accent); color: var(--color-accent) }
+[data-theme="dark"] #themeToggle:focus-visible{ box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 70%, transparent); }
 
-/* Hamburguesa solo móvil */
+/* Hamburguesa solo mobile */
 #menuToggle{
-  position:absolute; right: calc(var(--space-6) + 48px); top:50%;
-  transform: translateY(-50%); display:inline-flex; color: var(--color-text-inv);
+  position:absolute; right: calc(var(--spacing-lg) + 48px); top:50%;
+  transform: translateY(-50%); display:inline-flex; color: var(--color-text-light);
 }
 @media (min-width:768px){ #menuToggle{ display:none } }
 
-/* Nav móvil */
-.nav{ display:none }
+/* Nav móvil (desplegable) */
+.nav{ display:none; }
 @media (max-width:767.98px){
   .nav{
-    position:absolute; right: var(--space-6); top:100%;
-    background: var(--color-surface); color: var(--color-text-inv);
-    border:1px solid rgba(255,255,255,.1); border-radius: var(--radius);
+    position:absolute; right: var(--spacing-lg); top:100%;
+    background: var(--color-bg-dark); color: var(--color-text-light);
+    border:1px solid rgba(255,255,255,.1); border-radius: var(--border-radius);
     padding:.5rem .75rem; box-shadow: var(--shadow-2);
   }
-  .nav__list{ display:grid; gap:.5rem; margin:0; padding:0; list-style:none }
+  .nav__list{ display:grid; gap:.5rem; margin:0; padding:0; list-style:none; }
+  .nav:not(.nav--open){ display:none }
   .nav.nav--open{ display:block }
 }
 
-/* Nav desktop centrado */
+/* Nav desktop (centrada) */
 @media (min-width:768px){
-  .nav{ display:block; position:absolute; left:50%; top:50%; transform: translate(-50%, -50%) }
+  .nav{
+    display:block; position:absolute; left:50%; top:50%; transform: translate(-50%, -50%);
+  }
   .nav__list{ display:flex; gap: clamp(.75rem, 2vw, 2rem); margin:0; padding:0; list-style:none; align-items:center }
 }
-.nav__link{ color: var(--color-text-inv); font-weight:700; transition: color .25s ease }
+.nav__link{ color: var(--color-text-light); font-weight:700; transition: color .25s ease; }
 .nav__link:hover, .nav__link[aria-current="page"]{ color: var(--color-accent) }
+[data-theme="dark"] .nav__link:hover, [data-theme="dark"] .nav__link[aria-current="page"]{ color: var(--color-primary) }
 
-/* --------------------- */
-/* 4) HERO + BUSCADOR    */
-/* --------------------- */
+/* =========================================
+   HERO + BUSCADOR + POSTS GRID
+========================================= */
+.search .container,
+.posts .container{
+  max-width: 1200px;     /* antes 980px */
+  margin: 0 auto;
+}
 .search__title{ text-align:center; margin-top: clamp(1rem, 3vw, 2rem); font-size: clamp(1.6rem, 2.6vw, 2.2rem) }
 .search__form{ display:grid; justify-items:center; gap:.5rem }
 #search-input{
   width:min(560px, 92%); margin:0 auto; padding:.6rem .8rem;
-  border:2px solid var(--color-primary); border-radius: var(--radius); font-size:1rem;
+  border:2px solid var(--color-primary); border-radius: var(--border-radius); font-size:1rem
 }
 
-/* ------------------------------- */
-/* 5) GRID DE POSTS + TARJETAS     */
-/* ------------------------------- */
-
-/* IMPORTANTE: grid elástico que ocupa TODO el ancho disponible */
+/* GRID + CARD */
 .posts__grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: var(--space-6);
-  margin: .75rem 0 0;           /* ❌ sin “auto” lateral */
-  padding: 0 var(--space-4);
-}
+  /* max-width:980px;   ← elimina esta línea */
+  margin: 1rem 0 0;      /* antes: 1rem auto 0  (quitamos el centrado) */
+  padding: 0 var(--spacing-md);
+} /* un poco más de aire arriba */
 
 .card{
-  background: var(--color-surface);
-  color: var(--color-text-inv);
-  border-radius: var(--radius);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-1);
-  transition: transform .2s ease, box-shadow .2s ease;
+  background: var(--color-bg-dark); color: var(--color-text-light);
+  border-radius: var(--border-radius); padding: var(--spacing-md); margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-1); transition: transform .2s ease, box-shadow .2s ease;
 }
 .card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-2) }
-.card__media{ margin-bottom: .75rem }
-.card__header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom: .5rem }
-.card__title{ font-size:1.15rem; margin:0 }
+.card__media{ margin-bottom: .75rem; } /* la altura la marca el aspect-ratio */
+.card__header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom: var(--spacing-sm) }
+.card__title{ font-size:1.2rem; margin:0 }
 .card__title a{ color: var(--color-secondary) }
 .card__meta{ font-size:.9rem; opacity:.75 }
-.card__excerpt{ margin: .5rem 0 1rem }
+.card__excerpt{ margin: var(--spacing-sm) 0 var(--spacing-md) }
 .card__actions .btn--link{ color: var(--color-accent) }
 .card__actions .btn--link:hover{ color: var(--color-primary) }
 
-/* Skeleton de carga (anti-CLS) */
-.card--skeleton{
-  min-height:220px; border-radius: var(--radius);
-  background: linear-gradient(90deg, #1f2937 25%, #111827 37%, #1f2937 63%);
-  background-size:400% 100%; animation: shimmer 1.2s infinite linear;
+/* Badge de categoría (en tarjetas y sidebar) */
+.badge{
+  display:inline-block; padding:.15rem .5rem; border-radius:9999px; font-size:.8rem; font-weight:700;
+  background: rgba(124,58,237,.15); color: var(--color-secondary);
+  margin-right:.5rem;
 }
-@keyframes shimmer{ 0%{background-position:100% 0} 100%{background-position:0 0} }
 
-/* Contador y acciones */
-.posts__counter{ color:#6b7280; margin:.5rem 0 1rem; min-height:1.25rem }
-.posts__actions{ display:flex; gap:.5rem; align-items:center; justify-content:center; min-height:48px }
-#btn-load-more,#btn-load-less{
-  display:inline-block; padding:.6rem 1rem; border-radius: var(--radius);
-  font-weight:700; transition: background-color .25s ease, color .25s ease, transform .15s ease;
+/* Skeleton (reserva de espacio coherente con la tarjeta real) */
+.card--skeleton{
+  min-height: 220px;
+  background: linear-gradient(90deg, #1f2937 25%, #111827 37%, #1f2937 63%);
+  background-size:400% 100%; animation: shimmer 1.2s infinite linear; border-radius: var(--border-radius);
+}
+@keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:0 0} }
+
+/* Controles + contador */
+.posts__counter{ text-align:left; color:#6b7280; margin: .5rem 0 1rem; min-height: 1.25rem; } /* reserva altura fijo (anti-CLS) */
+.posts__actions{
+  display:flex; gap:.5rem; align-items:center; min-height:48px;
+  justify-content:center;   /* centra el grupo de botones */
+}
+#btn-load-more, #btn-load-less{
+  display:inline-block; padding:.6rem 1rem; border-radius: var(--border-radius);
+  font-weight:700; transition: background-color .25s ease, color .25s ease;
   text-align:center; min-width:140px; border:2px solid transparent;
 }
 #btn-load-more{ background: var(--color-primary); color:#0b1220 }
 #btn-load-less{ background: var(--color-secondary); color:#fff }
-#btn-load-more:hover,#btn-load-less:hover{ background: var(--color-accent); color:#fff; transform: translateY(-1px) }
-.sentinel{ height:24px; width:100%; margin-top:.5rem }
+#btn-load-more:hover, #btn-load-less:hover{ background: var(--color-accent); color:#fff; transform: translateY(-1px); }
 
-/* ------------------------------- */
-/* 6) LAYOUT CON SIDEBAR           */
-/* ------------------------------- */
+/* Empty state */
+.empty{ text-align:center; padding: var(--spacing-md) }
+.empty__text{ margin-bottom: .75rem }
+/* Si muestras/ocultas estados vacíos, evita colapsar el layout */
+.empty[hidden] { display: block; visibility: hidden; height: 0; margin: 0; padding: 0; }
 
+/* Sentinela (para IO) con un poco de aire arriba */
+.sentinel{ height: 24px; width: 100%; margin-top:.5rem }
+
+/* =========================================
+   LAYOUT + SIDEBAR
+========================================= */
 .layout{ display:block }
-.layout__main{ min-width:0 }          /* evita overflow por contenidos largos */
-.layout__sidebar{ display:none }      /* móvil: sidebar debajo */
+.layout__main{ min-width: 0; } /* evita overflow */
 
-@media (min-width: 900px){
-  /* 2 columnas: main + sidebar (300px) */
+/* Sidebar oculto por defecto (móvil) */
+.layout__sidebar{ display:none; }
+
+/* Desktop: dos columnas y sidebar sticky */
+@media (min-width: 992px){
   .layout.layout--with-sidebar{
     display:grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-columns: minmax(0,1fr) 320px;   /* main + sidebar */
     gap: clamp(1rem, 2vw, 2rem);
     align-items:start;
   }
   .layout__sidebar{
-    display:block;
-    position:sticky; top:84px;        /* queda debajo del header */
-    width:100%; max-width:300px; align-self:start;
-  }
-  /* MUY IMPORTANTE: el grid de posts NO debe encogerse ni centrarse */
-  .layout--with-sidebar .posts__grid{
-    max-width:none; width:100%;
-    margin: .75rem 0 0;               /* sin auto lateral */
-    padding-left: 0; padding-right: 0;
-    justify-content: stretch;         /* por si alguna regla lo centraba */
-    justify-items: stretch;
-    place-content: start stretch;
-    place-items: start stretch;
+    display:block;               /* fuerza a mostrarse en desktop */
+    position:sticky; top: 84px;  /* debajo del header */
+    align-self:start;
   }
 }
 
 /* Sidebar UI */
 .sidebar__block{
-  background: var(--color-surface);
-  color: var(--color-text-inv);
-  border-radius: var(--radius);
+  background: var(--color-bg-dark);
+  color: var(--color-text-light);
+  border-radius: var(--border-radius);
   padding: 1rem;
   box-shadow: var(--shadow-1);
   margin-bottom: 1rem;
 }
-.sidebar__title{ margin:0 0 .5rem; font-size:1.05rem; color: var(--color-primary) }
-.sidebar__list{ list-style:none; margin:0; padding:0; display:grid; gap:.5rem }
-.sidebar__item{ display:flex; align-items:baseline; justify-content:space-between; gap:.75rem }
-.sidebar__link{ flex:1 1 auto; min-width:0; color: var(--color-accent); font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-.sidebar__meta{ flex:0 0 auto; font-size:.9rem; opacity:.75; white-space:nowrap }
-
-/* --------------------- */
-/* 7) PÁGINA INDIVIDUAL  */
-/* --------------------- */
-.post{
-  max-width: 980px;
-  margin: var(--space-8) auto;
-  padding: 1.25rem 1.5rem;
-  background: var(--color-surface);
-  color: var(--color-text-inv);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-1);
+.sidebar__title{
+  margin: 0 0 .5rem; font-size: 1.05rem; color: var(--color-primary);
 }
-.post__title{ margin:0 0 .5rem }
-.post__meta{ opacity:.75; margin-bottom:1rem; text-align:right }
-.post__content p, .post__content ul, .post__content ol{ margin-bottom:1rem }
+.sidebar__list{
+  list-style: none; margin: 0; padding: 0; display:grid; gap:.5rem;
+}
+.sidebar__item{ display:flex; justify-content:space-between; gap:.75rem }
+.sidebar__link{ flex:1 1 auto; min-width:0; color: var(--color-accent); font-weight:700; text-overflow: ellipsis; overflow:hidden; white-space:nowrap; }
+.sidebar__meta{ flex:0 0 auto; font-size:.85rem; opacity:.75; white-space:nowrap; }
 
-/* --------------------- */
-/* 8) FOOTER             */
-/* --------------------- */
+/* =========================================
+   PÁGINA DE POST INDIVIDUAL
+========================================= */
+.post{ max-width:980px; margin: var(--spacing-lg) auto; padding: 1.25rem 1.5rem; background: var(--color-bg-dark); color: var(--color-text-light); border-radius: var(--border-radius); box-shadow: var(--shadow-1) }
+.post__title{ margin: 0 0 .5rem 0; }
+.post__meta{ opacity:.75; margin-bottom: 1rem; text-align:right; }
+.post__content p, .post__content ul, .post__content ol{ margin-bottom: 1rem; }
+
+/* =========================================
+   FOOTER
+========================================= */
 .site-footer{
-  background: var(--color-surface);
-  color: var(--color-text-inv);
-  text-align:center; padding: var(--space-4); margin-top: var(--space-8); font-size:.9rem;
+  background: var(--color-bg-dark); color: var(--color-text-light);
+  text-align:center; padding: var(--spacing-md); margin-top: var(--spacing-xl); font-size:.9rem;
 }
 .site-footer a{ color: var(--color-accent); font-weight:700 }
 .site-footer a:hover{ color: var(--color-primary) }
 
-/* Nav del footer (no hereda posicionamiento del header) */
+/* ===== Fix: que las reglas de .nav del header no afecten al footer ===== */
 .nav--footer{
-  position: static; display:block; transform:none; left:auto; top:auto;
-  background: transparent; border:0; padding:0; box-shadow:none;
+  position: static !important;
+  display: block !important;
+  left: auto; top: auto; transform: none !important;
+  background: transparent; border: 0; padding: 0; box-shadow: none;
 }
 .nav--footer .nav__list{
-  display:flex; gap:.75rem; justify-content:center; align-items:center;
-  margin:0; padding:0; list-style:none;
+  display: flex !important;
+  gap: .75rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0; padding: 0; list-style: none;
 }
-.nav--footer .nav__link{ color: var(--color-accent); font-weight:700 }
-.nav--footer .nav__link:hover{ color: var(--color-primary) }
+.nav--footer .nav__link{ color: var(--color-accent); font-weight: 700; }
+.nav--footer .nav__link:hover{ color: var(--color-primary); }
 
-/* --------------------- */
-/* 9) ACCESIBILIDAD/MOTION */
-/* --------------------- */
+/* Contact form UI */
+.contact-form .form-label{ display:block; font-weight:700; margin-bottom:.25rem }
+.contact-form .form-input{
+  width:100%; max-width:680px;
+  padding:.6rem .8rem; border:2px solid var(--color-primary);
+  border-radius: var(--border-radius); background: transparent; color: inherit;
+}
+.contact-form textarea.form-input{ resize: vertical }
+.contact-form .form-row{ display:grid; justify-items: start }
+
+/* Preferencias de movimiento reducido */
 @media (prefers-reduced-motion: reduce){
-  *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important }
+  *{ animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
 
-/* --------------------- */
-/* 10) TEMA OSCURO       */
-/* --------------------- */
-[data-theme="dark"] body{ background:#0b1220; color: var(--color-text-inv) }
-[data-theme="dark"] .card{ background: var(--color-surface-2); color: var(--color-text-inv) }
-[data-theme="dark"] .post{ background: var(--color-surface-2) }
-[data-theme="dark"] #themeToggle{ border-color: var(--color-accent); color: var(--color-accent) }
-
-/* ====== Layout principal: contenido + sidebar ====== */
-.layout {
-  /* Contenedor padre de posts + sidebar */
-  display: grid;
-  grid-template-columns: 1fr;            /* móvil: 1 columna */
-  gap: 2rem;
-  align-items: start;
+/* =========================================
+   TEMA OSCURO (html[data-theme="dark"])
+========================================= */
+[data-theme="dark"] body{ background: #0b1220; color: var(--color-text-light) }
+[data-theme="dark"] .card{ background: var(--color-bg-light); color: var(--color-text-light) }
+[data-theme="dark"] .post{ background: var(--color-bg-light) }
+/* === Layout con sidebar: fuerza 2 columnas en ≥768px === */
+@media (min-width: 768px){
+  .layout--with-sidebar{
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) 300px !important;
+    gap: clamp(1rem, 2vw, 2rem) !important;
+    align-items: start !important;
+  }
+  .layout__sidebar{
+    display: block !important;
+    position: sticky !important;
+    top: 84px !important;
+    align-self: start !important;
+  }
+  /* Quita el tope del grid de posts para que quepan ambas columnas */
+  .layout__main .posts__grid{
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
-
-@media (min-width: 1024px) {             /* escritorio */
-  .layout {
-    grid-template-columns: minmax(0, 3fr) minmax(260px, 1.2fr); /* contenido / sidebar */
+/* <768px: una columna (sidebar se apila) */
+@media (max-width: 767.98px){
+  .layout--with-sidebar{ display:block !important; }
+  .layout__sidebar{ display:block !important; position:static !important; }
+}
+/* Más aire entre main y sidebar, y ancho seguro del aside */
+@media (min-width: 900px){
+  .layout.layout--with-sidebar{
+    gap: 1.25rem;                     /* separa columnas un poco más */
+    grid-template-columns: minmax(0,1fr) 300px;
+  }
+  .layout__sidebar{
+    width: 100%;
+    max-width: 300px;                 /* evita que “crezca” y empuje el main */
+    align-self: start;
+  }
+  .layout__main .posts__grid{
+    max-width: none;                  /* el main se adapta a la nueva grilla */
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
-/* Evitar que el sidebar flote o se superponga */
-.sidebar {
-  position: static !important;
-  width: auto !important;
-  max-width: 100%;
+/* ====== LAYOUT CON SIDEBAR: fuerza 2 columnas en desktop/tablet ====== */
+
+/* 1) Activa el grid del layout desde 900px (soporta zoom sin “romperse”) */
+@media (min-width: 900px){
+  .layout--with-sidebar{
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) 300px !important; /* main + sidebar */
+    gap: clamp(1rem, 2vw, 2rem) !important;
+    align-items: start !important;
+  }
+  .layout__sidebar{
+    display: block !important;
+    position: sticky !important;
+    top: 84px !important;              /* debajo del header */
+    width: 100%;
+    max-width: 300px;                  /* evita que empuje al main */
+  }
+
+  /* 2) Quita el tope del grid de posts SOLO cuando hay sidebar */
+  .layout__main .posts__grid{
+    max-width: none !important;        /* deja que el main se adapte al grid */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
-/* ====== Grid de posts ====== */
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;                           /* separaciones consistentes */
-  align-items: stretch;
+/* 3) A 1200px, puedes dar un pelín más a la sidebar si quieres */
+@media (min-width: 1200px){
+  .layout--with-sidebar{
+    grid-template-columns: minmax(0,1fr) 320px !important;
+  }
 }
 
-/* Las tarjetas no deben fijar ancho ni margen externo que rompa el grid */
-.post-card {
-  width: 100% !important;
-  margin: 0 !important;
-  /* si había flex-basis o width fijos, esto lo neutraliza */
-  flex: 1 1 auto;
-}
+/* 4) Sidebar: títulos largos y fechas alineadas (evita “montarse”) */
+.sidebar__item{ display:flex; align-items: baseline; justify-content: space-between; gap:.75rem; }
+.sidebar__link{ flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sidebar__meta{ flex:0 0 auto; white-space:nowrap; opacity:.75; font-size:.9rem; }
 
-/* ====== Contenedor central y respiración ====== */
-.container {
-  max-width: 1200px;                     /* asegúrate de no quedar demasiado angosto */
-  margin-inline: auto;
-  padding-inline: 1rem;
+/* 5) Contenedores un poco más anchos para que quepa todo cómodo */
+.search .container,
+.posts .container { max-width: 1200px !important; }
+
+/* 6) Fondo estable según tema (por si viste “blancos” en móvil) */
+body{ background: var(--color-bg); }
+[data-theme="dark"] body{ background: #0b1220; }
+
+/* ===== Parche quirúrgico: liberar el ancho del main cuando hay sidebar ===== */
+@media (min-width: 900px){
+  /* El contenedor de la sección no debe quedarse en 980px */
+  .posts .container,
+  .search .container{
+    max-width: 1200px !important;
+  }
+
+  /* La columna principal y su grid NO deben tener tope ni centrado */
+  .layout--with-sidebar .layout__main > .posts__grid{
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;   /* si quieres conservar padding, quita esta línea */
+    padding-right: 0 !important;
+  }
+}
+/* === LIBERAR EL MAIN CUANDO HAY SIDEBAR (override definitivo) === */
+@media (min-width: 900px){
+  .layout.layout--with-sidebar .layout__main > .posts__grid{
+    max-width: none !important;     /* rompe el tope de 980px */
+    width: 100% !important;
+    margin-left: 0 !important;      /* mata el "auto" lateral */
+    margin-right: 0 !important;
+    margin-top: .75rem !important;
+    padding-left: 0 !important;     /* si quieres dejar padding, quita estas 2 líneas */
+    padding-right: 0 !important;
+  }
+}
+@media (min-width: 900px){
+  .layout.layout--with-sidebar{
+    grid-template-columns: minmax(0,1fr) 300px !important;
+  }
+  .layout.layout--with-sidebar .layout__main{
+    width: 100% !important;
+  }
 }
