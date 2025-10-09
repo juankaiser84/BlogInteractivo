@@ -12,34 +12,33 @@ Blog personal de estilo de vida digital y aprendizaje en público.
 - Diseño **responsive** (mobile-first).
 - **Tema claro/oscuro** con toggle y persistencia (`localStorage`).
 - **Búsqueda en tiempo real** (título y resumen).
-- **Paginación progresiva**: cargar más / cargar menos.
-- **Posts dinámicos** desde `assets/data/posts.json` o desde **backend PHP** (switch).
-- Estructura **semántica** y accesible (roles/ARIA esenciales).
-- Preparado para **SEO on-page** básico.
-- Objetivo de rendimiento: **90+** en Lighthouse.
+- **Paginación**: cargar más / cargar menos.
+- **Posts dinámicos** desde `assets/data/posts.json` ó **backend PHP** (switch).
+- Semántica + A11Y (roles/ARIA esenciales).
+- Objetivo Lighthouse **90+** (Perf/A11Y/SEO).
 
 ---
 
 ## 🧠 Cómo funciona el *switch* (JSON ↔ PHP)
 
-El front intenta detectar `./Backend/api/env.php`:
+El front intenta `./backend/api/env.php`:
 
-1. Si responde `{ "APP_ENV": "php" }` → usa `./Backend/api/posts.php` (lectura desde PHP).
-2. Si no existe o no responde JSON válido → **fallback** a `./assets/data/posts.json`.
+1. Si responde `{ "APP_ENV": "php" }` → usa `./backend/api/posts.php` (lectura desde PHP).
+2. Si no responde o no es JSON válido → **fallback** a `./assets/data/posts.json`.
 
-Esto permite:
+Así:
 - **Live Server (127.0.0.1:5500)** → siempre JSON (no ejecuta PHP).
 - **localhost** (XAMPP/WAMP/MAMP) → usa PHP si está disponible.
 
-> Importante: la carpeta se llama **`Backend/`** (B mayúscula) en la raíz del proyecto.
+> La carpeta es **`backend/`** (minúsculas), en la **raíz** del proyecto.
 
 ---
 
 ## 🛠️ Puesta en marcha
 
 ### A) Estático (Live Server)
-1. Abrir con VS Code.
-2. **Go Live** → `http://127.0.0.1:5500/`.
+1. Abrir con VS Code → **Go Live**.
+2. Visitar `http://127.0.0.1:5500/`.
 3. Fuente de datos: `assets/data/posts.json`.
 
 ### B) Localhost con PHP
@@ -49,8 +48,8 @@ Esto permite:
    - MAMP: `...\Applications\MAMP\htdocs\BlogInteractivo\`
 2. Visitar `http://localhost/BlogInteractivo/`
 3. Endpoints:
-   - `Backend/api/env.php` → `{"APP_ENV":"php"}`
-   - `Backend/api/posts.php` → JSON de posts
+   - `backend/api/env.php` → `{"APP_ENV":"php"}`
+   - `backend/api/posts.php` → lista de posts (JSON)
 
 ---
 
@@ -58,18 +57,18 @@ Esto permite:
 
 BlogInteractivo/
 ├─ assets/
-│ ├─ css/ # style.css (BEM, variables CSS)
+│ ├─ css/
 │ ├─ data/
-│ │ ├─ posts.json # fuente estática de posts
-│ │ └─ app-env.json # (opcional) forzar “static” en Live Server
+│ │ ├─ posts.json
+│ │ └─ app-env.json # opcional (forzar “static”), está en .gitignore
 │ ├─ img/
 │ └─ js/
-│ └─ main.js # menú, tema, búsqueda, paginación, switch de datos
-├─ Backend/
+│ └─ main.js # menú, tema, búsqueda, paginación y switch
+├─ backend/
 │ └─ api/
 │ ├─ env.php # {"APP_ENV":"php"}
-│ └─ posts.php # lista de posts en JSON (GET)
-├─ posts/ # páginas HTML de cada post
+│ └─ posts.php # GET posts en JSON
+├─ posts/
 ├─ about.html
 ├─ contact.html
 ├─ 404.html
@@ -82,9 +81,9 @@ BlogInteractivo/
 
 - [ ] SEO on-page: `<title>` por página, `meta description`, datos estructurados mínimos.
 - [ ] Accesibilidad: `:focus-visible`, roles adicionales y contraste.
-- [ ] Lighthouse ≥ 90 (Performance, A11y y SEO).
-- [ ] (Opcional) CRUD en backend: crear/editar/borrar posts + panel `Backend/admin/`.
-- [ ] Deploy front en GitHub Pages (modo JSON). Backend requerirá hosting con PHP.
+- [ ] Lighthouse ≥ 90 (Perf, A11y y SEO).
+- [ ] (Opcional) CRUD backend: crear/editar/borrar + panel `/backend/admin/`.
+- [ ] Deploy front en GitHub Pages (modo JSON). Backend necesita hosting con PHP.
 
 ---
 
@@ -92,15 +91,15 @@ BlogInteractivo/
 
 ```bash
 git add .
-git commit -m "feat: switch JSON↔PHP estable (Backend local)"
+git commit -m "feat: backend local + switch JSON↔PHP"
 git push
 
-📝 Cambios destacados
+📝 Cambios destacados (esta versión)
 
-    Nuevo: backend PHP local (Backend/api/) con env.php + posts.php.
+    Nuevo: backend PHP local (backend/api/) con env.php + posts.php.
 
-    Nuevo: switch automático de fuente (PHP ↔ JSON) con fallback seguro.
+    Nuevo: switch automático (PHP ↔ JSON) con fallback seguro.
 
-    Mejora: manejo de errores y A11Y (mensajes y aria-busy).
+    Docs: README y .gitignore.
 
-    Mantenimiento: rutas relativas y capitalización consistente.
+    Mantenimiento: rutas relativas y backend/ en minúsculas.
